@@ -6,5 +6,3 @@ services:
       - "3000:3000"
     environment: 
       - port: 3000
-      - aws_access_key_id: AKIASS4HHDHOSYI4PRMR
-      - aws_secret_access_key_id: kkaFUlMbhtr1l70N9Yn6qgv0BbErGPrzjQVAELfo

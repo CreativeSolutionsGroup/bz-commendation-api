@@ -28,9 +28,9 @@ jobs:
         uses: kciter/aws-ecr-action@v4
         with:
           # The AWS access key id
-          access_key_id: AKIASS4HHDHOZDVYBUFW
+          access_key_id: AKIASS4HHDHO4C6F2U77
           # The AWS secret access key
-          secret_access_key: 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
+          secret_access_key: kkaFUlMbhtr1l70N9Yn6qgv0BbErGPrzjQVAELfo
           # AWS Account ID
           account_id: 177987852765
           # Name of your ECR repository

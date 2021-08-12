@@ -1,0 +1,10 @@
+version: '3'
+services:
+  backend:
+    image: ghcr.io/creativesolutionsgroup/bz-commendation-api:latestghcr.io/rust-cms/rcms:latest
+    ports:
+      - "3000:3000"
+    environment: 
+      - port: 3000
+      - aws_access_key_id: AKIASS4HHDHOSYI4PRMR
+      - aws_secret_access_key_id: kkaFUlMbhtr1l70N9Yn6qgv0BbErGPrzjQVAELfo

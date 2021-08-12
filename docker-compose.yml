@@ -1,7 +1,7 @@
 version: '3'
 services:
   backend:
-    image: ghcr.io/creativesolutionsgroup/bz-commendation-api:latestghcr.io/rust-cms/rcms:latest
+    image: ghcr.io/creativesolutionsgroup/bz-commendation-api:latest
     ports:
       - "3000:3000"
     environment: 

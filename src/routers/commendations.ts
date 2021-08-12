@@ -8,10 +8,10 @@ const commendationRoutes = (app: Express): void => {
         .get(all)
         .put(update)
         .post(create)
-        .delete(del)
 
     app.route(`/commendation/:id`)
         .get(get)
+        .delete(del)
 }
 
 export default commendationRoutes;

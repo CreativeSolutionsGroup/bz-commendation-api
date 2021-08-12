@@ -8,3 +8,4 @@ services:
       PORT: "3000"
       AWS_ACCESS_KEY_ID: -- Fill in
       AWS_SECRET_ACCESS_KEY: -- Fill in
+    restart: always

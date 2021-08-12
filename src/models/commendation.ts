@@ -1,5 +1,5 @@
 interface Commendation {
-    toEmail: string;
+    email: string;
     fromEmail: string;
     message: string;
     date: Date;

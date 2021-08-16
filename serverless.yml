@@ -1,6 +1,8 @@
   
 service: aws-node-rest-api-typescript
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs14.x

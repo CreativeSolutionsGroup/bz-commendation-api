@@ -5,9 +5,9 @@
     "lib": ["esnext"],
     "module": "commonjs",
     "moduleResolution": "node",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "lib",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "outDir": "out",
     "sourceMap": true,
     "target": "esnext"
   },

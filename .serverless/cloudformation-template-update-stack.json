@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-node-rest-api-typescript/dev/1628963812038-2021-08-14T17:56:52.038Z/aws-node-rest-api-typescript.zip"
+          "S3Key": "serverless/aws-node-rest-api-typescript/dev/1629088104643-2021-08-16T04:28:24.643Z/aws-node-rest-api-typescript.zip"
         },
         "Handler": "src/app.handler",
         "Runtime": "nodejs14.x",
@@ -179,14 +179,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersion0YDGCBsGjSilcy9YTe482kbdS8gt1XR4QzBkbtYXro": {
+    "AppLambdaVersionG490wmmwNrTYkSoP7vNVtDyWUnfAGXIw34OnPOUU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "9uWROXKvrpC0c/fPBXJ6pG+QAvyyC33GD5imOT3TO4M="
+        "CodeSha256": "vBiqPZyNDuxtTFgZFNdRc2q4BYDzib01s4Jm4UbSRp4="
       }
     },
     "ApiGatewayRestApi": {
@@ -311,7 +311,7 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1628963728253": {
+    "ApiGatewayDeployment1629088063660": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -374,7 +374,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersion0YDGCBsGjSilcy9YTe482kbdS8gt1XR4QzBkbtYXro"
+        "Ref": "AppLambdaVersionG490wmmwNrTYkSoP7vNVtDyWUnfAGXIw34OnPOUU"
       },
       "Export": {
         "Name": "sls-aws-node-rest-api-typescript-dev-AppLambdaFunctionQualifiedArn"

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Commendation from "../models/commendation";
 import AWS from "aws-sdk";
 AWS.config.update({ region: "us-east-2" });
-const documentClient = new AWS.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" })
+const documentClient = new AWS.DynamoDB.DocumentClient()
 
 const all = async (req: Request, res: Response) => {
     

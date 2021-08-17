@@ -35,6 +35,16 @@ AWS_ACCESS_KEY_ID=#Fill in
 AWS_SECRET_ACCESS_KEY=#Fill in
 ```
 
+Then, follow [this](https://aws.amazon.com/blogs/security/how-to-create-an-aws-iam-policy-to-grant-aws-lambda-access-to-an-amazon-dynamodb-table/) tutorial until the end
+
+In the `serverless.yml`, change
+
+`role: arn:aws:iam::069536840885:role/lambda-dynamo-acess`
+
+to this:
+
+`role: arn:aws:iam::{YOUR AWS USER ID}:role/{YOUR LAMBDA IAM POLICY ID}`
+
 Then, run
 
 `serverless deploy`.

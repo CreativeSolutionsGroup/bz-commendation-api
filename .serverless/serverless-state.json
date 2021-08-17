@@ -6,6 +6,9 @@
     },
     "provider": {
       "name": "aws",
+      "iam": {
+        "role": "arn:aws:iam::069536840885:role/lambda-dynamo-acess"
+      },
       "runtime": "nodejs14.x",
       "stage": "dev",
       "region": "us-east-2",
@@ -90,83 +93,6 @@
               "LogGroupName": "/aws/lambda/aws-node-rest-api-typescript-dev-app"
             }
           },
-          "IamRoleLambdaExecution": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-              "AssumeRolePolicyDocument": {
-                "Version": "2012-10-17",
-                "Statement": [
-                  {
-                    "Effect": "Allow",
-                    "Principal": {
-                      "Service": [
-                        "lambda.amazonaws.com"
-                      ]
-                    },
-                    "Action": [
-                      "sts:AssumeRole"
-                    ]
-                  }
-                ]
-              },
-              "Policies": [
-                {
-                  "PolicyName": {
-                    "Fn::Join": [
-                      "-",
-                      [
-                        "aws-node-rest-api-typescript",
-                        "dev",
-                        "lambda"
-                      ]
-                    ]
-                  },
-                  "PolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                      {
-                        "Effect": "Allow",
-                        "Action": [
-                          "logs:CreateLogStream",
-                          "logs:CreateLogGroup"
-                        ],
-                        "Resource": [
-                          {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/aws-node-rest-api-typescript-dev*:*"
-                          }
-                        ]
-                      },
-                      {
-                        "Effect": "Allow",
-                        "Action": [
-                          "logs:PutLogEvents"
-                        ],
-                        "Resource": [
-                          {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/aws-node-rest-api-typescript-dev*:*:*"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              ],
-              "Path": "/",
-              "RoleName": {
-                "Fn::Join": [
-                  "-",
-                  [
-                    "aws-node-rest-api-typescript",
-                    "dev",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    "lambdaRole"
-                  ]
-                ]
-              }
-            }
-          },
           "AppLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -174,32 +100,27 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/aws-node-rest-api-typescript/dev/1629088104643-2021-08-16T04:28:24.643Z/aws-node-rest-api-typescript.zip"
+                "S3Key": "serverless/aws-node-rest-api-typescript/dev/1629234226946-2021-08-17T21:03:46.946Z/aws-node-rest-api-typescript.zip"
               },
               "Handler": "src/app.handler",
               "Runtime": "nodejs14.x",
               "FunctionName": "aws-node-rest-api-typescript-dev-app",
               "MemorySize": 512,
               "Timeout": 6,
-              "Role": {
-                "Fn::GetAtt": [
-                  "IamRoleLambdaExecution",
-                  "Arn"
-                ]
-              }
+              "Role": "arn:aws:iam::069536840885:role/lambda-dynamo-acess"
             },
             "DependsOn": [
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionG490wmmwNrTYkSoP7vNVtDyWUnfAGXIw34OnPOUU": {
+          "AppLambdaVersionR7q43HHQyYsSzRak9ngejGE4WRu6ltJvPQT9eKC7Q": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "vBiqPZyNDuxtTFgZFNdRc2q4BYDzib01s4Jm4UbSRp4="
+              "CodeSha256": "i679XQZO/64l0wbgEisFta811Ldx3WKNO9th1a3G1QU="
             }
           },
           "ApiGatewayRestApi": {
@@ -324,7 +245,7 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1629088063660": {
+          "ApiGatewayDeployment1629234193241": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -387,7 +308,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionG490wmmwNrTYkSoP7vNVtDyWUnfAGXIw34OnPOUU"
+              "Ref": "AppLambdaVersionR7q43HHQyYsSzRak9ngejGE4WRu6ltJvPQT9eKC7Q"
             },
             "Export": {
               "Name": "sls-aws-node-rest-api-typescript-dev-AppLambdaFunctionQualifiedArn"
@@ -532,7 +453,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionG490wmmwNrTYkSoP7vNVtDyWUnfAGXIw34OnPOUU"
+        "versionLogicalId": "AppLambdaVersionR7q43HHQyYsSzRak9ngejGE4WRu6ltJvPQT9eKC7Q"
       }
     },
     "configValidationMode": "warn",
@@ -554,10 +475,10 @@
     },
     "layers": {},
     "isDashboardMonitoringPreconfigured": false,
-    "artifact": "C:\\Users\\spenc\\prg\\csg\\bz-commendation-api\\.build\\.serverless\\aws-node-rest-api-typescript.zip"
+    "artifact": "/home/spencer/csg/bz-commendations-backend/.build/.serverless/aws-node-rest-api-typescript.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/aws-node-rest-api-typescript/dev/1629088104643-2021-08-16T04:28:24.643Z",
+    "artifactDirectoryName": "serverless/aws-node-rest-api-typescript/dev/1629234226946-2021-08-17T21:03:46.946Z",
     "artifact": "aws-node-rest-api-typescript.zip"
   }
 }

@@ -5,6 +5,8 @@ useDotenv: true
 
 provider:
   name: aws
+  iam:
+    role: arn:aws:iam::069536840885:role/lambda-dynamo-acess
   runtime: nodejs14.x
   stage: dev
   region: us-east-2

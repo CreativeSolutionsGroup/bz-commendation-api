@@ -15,12 +15,48 @@ AWS_SECRET_ACCESS_KEY=
 
 ```
 
-### How to update the dist image
+### How to deploy (Lambda)
 
-Create a new Github release and wait for the action.
+First, ensure that you have the `credentials` file present (`~/aws/credentials`). If you don't, create it and put the following content:
+
+```toml
+[default]
+AWS_ACCESS_KEY_ID=#Fill in
+AWS_SECRET_ACCESS_KEY=#Fill in
+```
+
+`yarn global add serverless`
+
+Create a file in the root directory of the project called `.env` and put the following content into it:
+
+```toml
+PORT=3000
+AWS_ACCESS_KEY_ID=#Fill in
+AWS_SECRET_ACCESS_KEY=#Fill in
+```
+
+Then, follow [this](https://aws.amazon.com/blogs/security/how-to-create-an-aws-iam-policy-to-grant-aws-lambda-access-to-an-amazon-dynamodb-table/) tutorial until the end
+
+In the `serverless.yml`, change
+
+`role: arn:aws:iam::069536840885:role/lambda-dynamo-acess`
+
+to this:
+
+`role: arn:aws:iam::{YOUR AWS USER ID}:role/{YOUR LAMBDA IAM POLICY ID}`
+
+Then, run
+
+`serverless deploy`.
 
 ### How to deploy (EC2)
 
 Must have `docker`, and `docker-compose` installed.
 
 `sudo /usr/local/bin/docker-compose up --detach`
+
+### How to update the dist image
+
+Create a new Github release and wait for the action.
+
+

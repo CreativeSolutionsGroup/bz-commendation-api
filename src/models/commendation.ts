@@ -1,8 +1,9 @@
 interface Commendation {
-    email: string;
+    _id: string;
     date: string;
     message: string;
     fromEmail: string;
+    toEmail: string;
 }
 
 export default Commendation;

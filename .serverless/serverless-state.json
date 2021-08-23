@@ -100,7 +100,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/aws-node-rest-api-typescript/dev/1629234226946-2021-08-17T21:03:46.946Z/aws-node-rest-api-typescript.zip"
+                "S3Key": "serverless/aws-node-rest-api-typescript/dev/1629394216620-2021-08-19T17:30:16.620Z/aws-node-rest-api-typescript.zip"
               },
               "Handler": "src/app.handler",
               "Runtime": "nodejs14.x",
@@ -113,14 +113,14 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionR7q43HHQyYsSzRak9ngejGE4WRu6ltJvPQT9eKC7Q": {
+          "AppLambdaVersion03frqfu57B0jY4hYytc0e843U6udSDy4gQreusVDj8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "i679XQZO/64l0wbgEisFta811Ldx3WKNO9th1a3G1QU="
+              "CodeSha256": "G/HctgfoOnzPTq27Q2l/zsFQmkmqsFjav0WEG8jHIi8="
             }
           },
           "ApiGatewayRestApi": {
@@ -245,7 +245,7 @@
               "AppLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1629234193241": {
+          "ApiGatewayDeployment1629394167642": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -308,7 +308,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionR7q43HHQyYsSzRak9ngejGE4WRu6ltJvPQT9eKC7Q"
+              "Ref": "AppLambdaVersion03frqfu57B0jY4hYytc0e843U6udSDy4gQreusVDj8"
             },
             "Export": {
               "Name": "sls-aws-node-rest-api-typescript-dev-AppLambdaFunctionQualifiedArn"
@@ -453,7 +453,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionR7q43HHQyYsSzRak9ngejGE4WRu6ltJvPQT9eKC7Q"
+        "versionLogicalId": "AppLambdaVersion03frqfu57B0jY4hYytc0e843U6udSDy4gQreusVDj8"
       }
     },
     "configValidationMode": "warn",
@@ -478,7 +478,7 @@
     "artifact": "/home/spencer/csg/bz-commendations-backend/.build/.serverless/aws-node-rest-api-typescript.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/aws-node-rest-api-typescript/dev/1629234226946-2021-08-17T21:03:46.946Z",
+    "artifactDirectoryName": "serverless/aws-node-rest-api-typescript/dev/1629394216620-2021-08-19T17:30:16.620Z",
     "artifact": "aws-node-rest-api-typescript.zip"
   }
 }

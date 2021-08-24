@@ -13,13 +13,14 @@ const get = async (req: Request, res: Response) => {
     const clientId = req.params.id;
 
     try {
-        let commendation = await documentClient.get({
+        let commendation = await documentClient.scan({
             TableName: "bz_commendation",
-            Key: {
-                _id: clientId
+            FilterExpression: "toEmail = :email",
+            ExpressionAttributeValues: {
+                ":email": clientId
             }
         }).promise()
-        return res.json(commendation.Item);
+        return res.json(commendation.Items);
     } catch (e) {
         return res.json({response: "Failed", reason: e});
     }

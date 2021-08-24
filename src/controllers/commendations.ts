@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Commendation from "../models/commendation";
 import AWS from "aws-sdk";
+import { v4 as uuidv4 } from "uuid";
 AWS.config.update({ region: "us-east-2" });
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
@@ -12,13 +13,14 @@ const get = async (req: Request, res: Response) => {
     const clientId = req.params.id;
 
     try {
-        let commendation = await documentClient.get({
+        let commendation = await documentClient.scan({
             TableName: "bz_commendation",
-            Key: {
-                email: clientId
+            FilterExpression: "toEmail = :email",
+            ExpressionAttributeValues: {
+                ":email": clientId
             }
         }).promise()
-        return res.json(commendation.Item);
+        return res.json(commendation.Items);
     } catch (e) {
         return res.json({response: "Failed", reason: e});
     }
@@ -31,6 +33,7 @@ const update = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response) => {
     const newCommendation = req.body as Commendation;
 
+    newCommendation._id = uuidv4();
     newCommendation.date = Date.now().toString();
 
     try {
@@ -52,7 +55,7 @@ const del = async (req: Request, res: Response) => {
         const dcRes = await documentClient.delete({
             TableName: "bz_commendation",
             Key: {
-                "email": id
+                "toEmail": id
             }
         }).promise();
 

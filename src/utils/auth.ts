@@ -12,7 +12,7 @@ const checkLoggedIn: RequestHandler = async (req: Request, res: Response, next) 
             throw "bad auth";
         }
     } catch (e) {
-        res.json({
+        res.status(403).json({
             type: "failed",
             message: "Authentication failed."
         });

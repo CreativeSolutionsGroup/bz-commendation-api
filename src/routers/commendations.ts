@@ -6,6 +6,9 @@ import { checkLoggedIn } from "../utils/auth";
 const commendationRoutes = (app: Express): void => {
     console.log(`Registering commendation routes.`)
 
+    app.route(`/checkAuth`)
+        .get(checkLoggedIn, (_, res) => { res.json({ message: `You are logged in.` }) });
+
     app.route(`/commendation`)
         .get(checkLoggedIn, all)
         .put(checkLoggedIn, update)

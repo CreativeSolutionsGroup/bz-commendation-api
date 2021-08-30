@@ -15,13 +15,17 @@ AWS.config.update(
 )
 
 import commendationsRouter from "./routers/commendations";
+import userRouter from "./routers/users";
+
 
 const port = process.env.PORT;
 const app = express();
 // All routes must be registered after this cors call.
 app.use(cors());
 app.use(bodyParser.json());
+
 commendationsRouter(app);
+userRouter(app);
 
 app.listen(port, () => {
     console.log(`Server started on port ${port} 🚀🚀🚀`);

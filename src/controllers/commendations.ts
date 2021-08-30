@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import jwt_decode from "jwt-decode";
 import Commendation from "../models/commendation";
 import AWS from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
@@ -10,14 +11,16 @@ const all = async (req: Request, res: Response) => {
 }
 
 const get = async (req: Request, res: Response) => {
-    const clientId = req.params.id;
+    let auth = req.headers.authorization;
+
+    let decodedToken = jwt_decode(auth.split(" ")[1]) as any;
 
     try {
         let commendation = await documentClient.scan({
             TableName: "bz_commendation",
             FilterExpression: "toEmail = :email",
             ExpressionAttributeValues: {
-                ":email": clientId
+                ":email": decodedToken.email
             }
         }).promise()
         return res.json(commendation.Items);

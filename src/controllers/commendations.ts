@@ -34,7 +34,7 @@ const create = async (req: Request, res: Response) => {
     const newCommendation = req.body as Commendation;
 
     newCommendation._id = uuidv4();
-    newCommendation.date = Date.now().toString();
+    newCommendation.date = new Date().toISOString();
 
     try {
         await documentClient.put({

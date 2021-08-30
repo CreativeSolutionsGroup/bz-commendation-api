@@ -59,4 +59,14 @@ Must have `docker`, and `docker-compose` installed.
 
 Create a new Github release and wait for the action.
 
+### Build Locally
+
+.env
+`PORT=3001`
+
+```
+docker build -t bz-commendation-api .
+docker run -dp 3001:3001 bz-commendation-api
+```
+
 

@@ -16,8 +16,6 @@ AWS.config.update(
 
 import commendationsRouter from "./routers/commendations";
 
-import { checkLoggedIn } from "./utils/auth";
-
 const port = process.env.PORT;
 const app = express();
 // All routes must be registered after this cors call.

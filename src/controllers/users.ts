@@ -42,6 +42,10 @@ const login = (req: Request, res: Response) => {
       res.json({
         message: "Successfully logged in."
       })
+    } else {
+      res.status(403).json({
+        message: "Did not verify."
+      })
     }
 }
 

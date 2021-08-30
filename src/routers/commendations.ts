@@ -14,7 +14,7 @@ const commendationRoutes = (app: Express): void => {
         .put(checkLoggedIn, update)
         .post(checkLoggedIn, create);
 
-    app.route(`/commendation/:id`)
+    app.route(`/commendation/user`)
         .get(get, checkLoggedIn)
         .delete(del, checkLoggedIn);
 }

@@ -33,7 +33,10 @@ Create a file in the root directory of the project called `.env` and put the fol
 PORT=3000
 AWS_ACCESS_KEY_ID=#Fill in
 AWS_SECRET_ACCESS_KEY=#Fill in
+EMAIL_PASSWORD=#Fill in
 ```
+
+To generate an email password: https://support.google.com/mail/answer/185833?hl=en-GB
 
 Then, follow [this](https://aws.amazon.com/blogs/security/how-to-create-an-aws-iam-policy-to-grant-aws-lambda-access-to-an-amazon-dynamodb-table/) tutorial until the end
 

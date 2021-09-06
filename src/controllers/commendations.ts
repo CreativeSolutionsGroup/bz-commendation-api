@@ -3,11 +3,21 @@ import jwt_decode from "jwt-decode";
 import Commendation from "../models/commendation";
 import AWS from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
+import { createTestAccount, createTransport } from "nodemailer";
 AWS.config.update({ region: "us-east-2" });
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
+const mail = createTransport({
+    service: "gmail",
+    auth: {
+        user: "sbills@cedarville.edu",
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
+
+
 const all = async (req: Request, res: Response) => {
-    
+
 }
 
 const get = async (req: Request, res: Response) => {
@@ -25,7 +35,7 @@ const get = async (req: Request, res: Response) => {
         }).promise()
         return res.json(commendation.Items);
     } catch (e) {
-        return res.json({response: "Failed", reason: e});
+        return res.json({ response: "Failed", reason: e });
     }
 }
 
@@ -45,9 +55,20 @@ const create = async (req: Request, res: Response) => {
             Item: newCommendation
         }).promise();
 
+        const mailOptions = {
+            from: "bzcommendations@cedarville.edu",
+            to: newCommendation.toEmail,
+            subject: "You have received a new BZ commendation!",
+            text: newCommendation.message
+        }
+
+        let mailRes = await mail.sendMail(mailOptions);
+
+        console.log(mailRes);
+
         return res.json("Finished.");
     } catch (e) {
-        return res.json({response: "Failed", reason: e});
+        return res.json({ response: "Failed", reason: e });
     }
 }
 
@@ -64,7 +85,7 @@ const del = async (req: Request, res: Response) => {
 
         return res.json(dcRes.ItemCollectionMetrics);
     } catch (e) {
-        return res.json({response: "Failed", reason: e});
+        return res.json({ response: "Failed", reason: e });
     }
 }
 

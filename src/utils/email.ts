@@ -19,7 +19,7 @@ export const emailDirector = async (commendation: Commendation) => {
     const mailOptions = {
         from: process.env.EMAIL,
         to: "bzcommendations@cedarville.edu",
-        subject: "You have received a new BZ commendation!",
+        subject: `${commendation.toEmail} received a new commendation.`,
         text: commendation.message
     }
 

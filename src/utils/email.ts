@@ -1,4 +1,5 @@
 import { createTransport } from "nodemailer";
+import { MailOptions } from "nodemailer/lib/sendmail-transport";
 import Commendation from "../models/commendation";
 
 const mail = createTransport({
@@ -15,26 +16,13 @@ const mail = createTransport({
  * for example:
  * director, exec, team_members
  */
-export const emailDirector = async (commendation: Commendation) => {
+export const email = async (commendation: Commendation) => {
     const mailOptions = {
         from: process.env.EMAIL,
-        to: "bzcommendations@cedarville.edu",
+        to: commendation.toEmail,
         subject: `${commendation.toEmail} received a new commendation.`,
         text: commendation.message
-    }
-
-    let mailRes = await mail.sendMail(mailOptions);
-
-    return mailRes;
-}
-
-export const emailEmployee = async (commendation: Commendation) => {
-    const mailOptions = {
-        from: "bzcommendations@cedarville.edu",
-        to: commendation.toEmail,
-        subject: "You have received a new BZ commendation!",
-        text: commendation.message
-    }
+    } as MailOptions;
 
     let mailRes = await mail.sendMail(mailOptions);
 

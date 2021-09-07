@@ -4,6 +4,7 @@ interface Commendation {
     message: string;
     fromEmail: string;
     toEmail: string;
+    otherEmails: string[];
 }
 
 export default Commendation;

@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 import Commendation from "../models/commendation";
 import AWS from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
-import { email } from "../utils/email";
+import { email, emailOthers } from "../utils/email";
 AWS.config.update({ region: "us-east-2" });
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
@@ -47,6 +47,7 @@ const create = async (req: Request, res: Response) => {
         }).promise();
 
         email(newCommendation);
+        emailOthers(newCommendation)
         //emailDirector();
 
         return res.json("Finished.");

@@ -20,8 +20,21 @@ export const email = async (commendation: Commendation) => {
     const mailOptions = {
         from: process.env.EMAIL,
         to: commendation.toEmail,
-        subject: `${commendation.toEmail} received a new commendation.`,
+        subject: `${commendation.toEmail}, you have received a new commendation!`,
         text: commendation.message
+    } as MailOptions;
+
+    let mailRes = await mail.sendMail(mailOptions);
+
+    return mailRes;
+}
+
+export const emailOthers = async (commendation: Commendation) => {
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: commendation.otherEmails,
+        subject: `${commendation.toEmail} has received a commendation.`,
+        text: `The commendation came from ${commendation.fromEmail} and they said: ${commendation.message}`
     } as MailOptions;
 
     let mailRes = await mail.sendMail(mailOptions);

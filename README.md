@@ -12,7 +12,9 @@ https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-your-c
 PORT=3000
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
-
+TWILIO_NUMBER=
+TWILIO_SID=
+TWILIO_AUTH=
 ```
 
 ### How to deploy (Lambda)

@@ -1,5 +1,5 @@
 import Commendation from "../models/commendation";
-import {getEmployeeName} from "../controllers/users";
+import { getEmployeeName } from "../controllers/users";
 require('dotenv').config();
 
 const client = require('twilio')(
@@ -11,25 +11,30 @@ const twilioNumber = process.env.TWILIO_NUMBER;
 /**
  * Sends a text via the twilio NodeJS library.
  */
-export const sendText = async (commendation: Commendation) => {
+export const sendText = (commendation: Commendation) => {
 
-    let senderName = await getEmployeeName(commendation.fromEmail);
+    getEmployeeName(commendation.fromEmail)
+    .then(senderName => {
 
-    let message = commendation.message;
-    if(message.length > 90){
-        message = message.substr(0, 90) + "..."
-    }
+        let message = commendation.message;
+        if (message.length > 90) {
+            message = message.substr(0, 90) + "..."
+        }
 
-    let textMessage = `You received a commendation! \n\n${message}\n--${senderName}\n(bz-cedarville.com)`
-    console.log(textMessage)
-    client.messages
-    .create({
-        from: twilioNumber,
-        to: commendation.phone,
-        body: textMessage
-    })
-    .then(() => {
-        console.log("Message Sent to " + commendation.phone)
+        let textMessage = `You received a commendation! \n\n${message}\n--${senderName}\n(bz-cedarville.com)`
+        console.log(textMessage)
+        client.messages
+        .create({
+            from: twilioNumber,
+            to: commendation.phone,
+            body: textMessage
+        })
+        .then(() => {
+            console.log("Message Sent to " + commendation.phone)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     })
     .catch((err) => {
         console.log(err);

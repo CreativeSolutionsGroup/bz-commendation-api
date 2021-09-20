@@ -33,6 +33,16 @@ const existsInSheet = async (user: string) => {
     return employees.find(employee => employee.email === user) !== -1;
 }
 
+const getEmployeeName = async (user: string) => {
+    let employees = await getEmployees();
+
+    let foundEmployee = employees.find(employee => employee.email === user);
+    if(foundEmployee !== -1){
+      return foundEmployee.name;
+    }
+    return user;
+}
+
 const login = (req: Request, res: Response) => {
     let user = req.body as User;
     let decodedUser = jwtDecode(user.token) as any;
@@ -49,4 +59,4 @@ const login = (req: Request, res: Response) => {
     }
 }
 
-export { login }
+export { login, getEmployeeName }

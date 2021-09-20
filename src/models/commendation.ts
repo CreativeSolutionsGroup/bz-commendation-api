@@ -4,6 +4,7 @@ interface Commendation {
     message: string;
     fromEmail: string;
     toEmail: string;
+    phone: string;
 }
 
 export default Commendation;

@@ -18,6 +18,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jwt-decode": "^3.1.2",
+    "nodemailer": "^6.6.3",
     "serverless-dotenv-plugin": "^3.9.0",
     "serverless-http": "^2.7.0",
     "twilio": "^3.67.2",

@@ -1,8 +1,19 @@
 import Commendation from "../models/commendation";
 import { getEmployeeName } from "../controllers/users";
+import { createTransport } from "nodemailer";
+import { MailOptions } from "nodemailer/lib/sendmail-transport";
 
-import sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const mail = createTransport({
+    service: "gmail",
+    auth: {
+        type: 'OAUTH2',
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+        clientId: process.env.OAUTH_CLIENTID,
+        clientSecret: process.env.OAUTH_CLIENT_SECRET,
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN
+    }
+});
 
 /**
  * The correct way to do this may be to have a configurable "list of email addresses" that you send to.
@@ -27,12 +38,10 @@ export const email = async (commendation: Commendation) => {
                         <a style="margin-left: auto; margin-right: auto"href="https://bz-cedarville.com/commendations">View your Commendations</a>
                     </div>
                 </div>`,
-    }
-    sgMail
-    .send(msg)
-    .catch((error) => {
-        console.error(error)
-    })
+    } as MailOptions;
+    let mailRes = await mail.sendMail(msg);
+
+    return mailRes;
 }
 
 export const emailOthers = async (commendation: Commendation) => {
@@ -62,10 +71,11 @@ export const emailOthers = async (commendation: Commendation) => {
                         </div>
                     </div>
                 </div>`,
-    }
-    sgMail
-    .send(msg)
+    } as MailOptions;
+    let mailRes = await mail.sendMail(msg)
     .catch((error) => {
         console.error(error)
-    })
+    });
+
+    return mailRes;
 }

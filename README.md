@@ -12,12 +12,19 @@ https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-your-c
 PORT=3000
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
+
 EMAIL=
-SENDGRID_API_KEY=
+EMAIL_PASSWORD=
+OAUTH_CLIENTID=
+OAUTH_CLIENT_SECRET=
+OAUTH_REFRESH_TOKEN=
+
 TWILIO_NUMBER=
 TWILIO_SID=
 TWILIO_AUTH=
 ```
+
+Setup Nodemailer OAUTH: https://www.freecodecamp.org/news/use-nodemailer-to-send-emails-from-your-node-js-server/
 
 ### How to deploy (Lambda)
 
@@ -32,8 +39,6 @@ AWS_SECRET_ACCESS_KEY=#Fill in
 `yarn global add serverless`
 
 Create a file in the root directory of the project called `.env` and put the above .env file contents into it.
-
-To generate an email password: https://support.google.com/mail/answer/185833?hl=en-GB
 
 Then, follow [this](https://aws.amazon.com/blogs/security/how-to-create-an-aws-iam-policy-to-grant-aws-lambda-access-to-an-amazon-dynamodb-table/) tutorial until the end
 

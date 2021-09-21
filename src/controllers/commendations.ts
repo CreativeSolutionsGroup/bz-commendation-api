@@ -3,12 +3,13 @@ import jwt_decode from "jwt-decode";
 import Commendation from "../models/commendation";
 import AWS from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
+import { email, emailOthers } from "../utils/email";
 import { sendText } from "../utils/phone";
 AWS.config.update({ region: "us-east-2" });
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
 const all = async (req: Request, res: Response) => {
-    
+
 }
 
 const get = async (req: Request, res: Response) => {
@@ -26,7 +27,7 @@ const get = async (req: Request, res: Response) => {
         }).promise()
         return res.json(commendation.Items);
     } catch (e) {
-        return res.json({response: "Failed", reason: e});
+        return res.json({ response: "Failed", reason: e });
     }
 }
 
@@ -35,6 +36,10 @@ const update = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
+    let muteEmail = req.body.muteEmail;
+    if(muteEmail === undefined){
+        muteEmail = false;
+    }
     const newCommendation = req.body as Commendation;
 
     newCommendation._id = uuidv4();
@@ -46,11 +51,12 @@ const create = async (req: Request, res: Response) => {
             Item: newCommendation
         }).promise();
 
+        if(!muteEmail)emailOthers(newCommendation)
         sendText(newCommendation);
-        
+      
         return res.json("Finished.");
     } catch (e) {
-        return res.json({response: "Failed", reason: e});
+        return res.json({ response: "Failed", reason: e });
     }
 }
 
@@ -67,7 +73,7 @@ const del = async (req: Request, res: Response) => {
 
         return res.json(dcRes.ItemCollectionMetrics);
     } catch (e) {
-        return res.json({response: "Failed", reason: e});
+        return res.json({ response: "Failed", reason: e });
     }
 }
 

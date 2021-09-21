@@ -5,6 +5,7 @@ interface Commendation {
     fromEmail: string;
     toEmail: string;
     otherEmails: string[];
+    phone: string;
 }
 
 export default Commendation;

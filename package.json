@@ -20,6 +20,7 @@
     "jwt-decode": "^3.1.2",
     "serverless-dotenv-plugin": "^3.9.0",
     "serverless-http": "^2.7.0",
+    "twilio": "^3.67.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

@@ -35,6 +35,10 @@ const update = async (req: Request, res: Response) => {
 }
 
 const create = async (req: Request, res: Response) => {
+    let muteEmail = req.body.muteEmail;
+    if(muteEmail === undefined){
+        muteEmail = false;
+    }
     const newCommendation = req.body as Commendation;
 
     newCommendation._id = uuidv4();
@@ -46,9 +50,7 @@ const create = async (req: Request, res: Response) => {
             Item: newCommendation
         }).promise();
 
-        email(newCommendation);
-        emailOthers(newCommendation)
-        //emailDirector();
+        if(!muteEmail)emailOthers(newCommendation)
 
         return res.json("Finished.");
     } catch (e) {

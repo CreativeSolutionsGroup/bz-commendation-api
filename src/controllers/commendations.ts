@@ -51,8 +51,10 @@ const create = async (req: Request, res: Response) => {
             Item: newCommendation
         }).promise();
 
-        if(!muteEmail)emailOthers(newCommendation)
-        sendText(newCommendation);
+        if(!muteEmail){
+            await emailOthers(newCommendation);
+        }
+        await sendText(newCommendation);
       
         return res.json("Finished.");
     } catch (e) {

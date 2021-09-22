@@ -2,6 +2,9 @@ import Commendation from "../models/commendation";
 import { getEmployeeName } from "../controllers/users";
 import { createTransport } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const mail = createTransport({
     service: "gmail",

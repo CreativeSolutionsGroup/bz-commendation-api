@@ -22,7 +22,7 @@ export const sendText = async (commendation: Commendation) => {
         message = message.substr(0, 90) + "..."
     }
 
-    let textMessage = `You received a commendation! \n\n${message}\n--${senderName}\n(bz-cedarville.com)`
+    let textMessage = `You received a BZ Commendation! \n\n${message}\n--${senderName}\n(bz-cedarville.com)`
     console.log(textMessage)
     let phoneResponse = await client.messages
     .create({

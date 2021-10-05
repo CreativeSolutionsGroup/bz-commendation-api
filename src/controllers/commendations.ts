@@ -9,7 +9,14 @@ AWS.config.update({ region: "us-east-2" });
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
 const all = async (req: Request, res: Response) => {
-
+    try {
+        let commendation = await documentClient.scan({
+            TableName: "bz_commendation"
+        }).promise()
+        return res.json(commendation.Items);
+    } catch (e) {
+        return res.json({ response: "Failed", reason: e });
+    }
 }
 
 const get = async (req: Request, res: Response) => {

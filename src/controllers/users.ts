@@ -3,14 +3,14 @@ import { Request, Response } from "express"
 import jwtDecode from "jwt-decode";
 import User from "../models/user";
 
-const getGoogleSheetJSON = async (sheetId) => {
-  let res = await axios.get(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`);
+const getGoogleSheetJSON = async (sheetId, tab) => {
+  let res = await axios.get(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${tab}`);
   const json = JSON.parse(res.data.substr(47).slice(0, -2))
   return json.table;
 }
 
 const getEmployees = async () => {
-  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI");
+  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Members");
   let employeeData = [];
 
   let rows = json.rows;
@@ -27,10 +27,29 @@ const getEmployees = async () => {
   return employeeData;
 }
 
+const getAdminUsers = async () => {
+  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Admins");
+  let adminList = [];
+
+  let rows = json.rows;
+  rows.forEach((row) => {
+    let email = row.c[0].v;
+    adminList.push(email)
+  });
+
+  return adminList;
+}
+
 export const existsInSheet = async (user: string) => {
   let employees = await getEmployees();
 
   return employees.find(employee => employee.email === user) !== -1;
+}
+
+export const isAdmin = async (user: string) => {
+  let adminList = await getAdminUsers();
+
+  return adminList.find(admin => admin === user) !== -1;
 }
 
 const getEmployeeName = async (user: string) => {

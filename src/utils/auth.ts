@@ -40,7 +40,11 @@ export const checkAdmin: RequestHandler = async (req: Request, res: Response, ne
         let splitBearer = bearer.split(" ")[1];
         let tokenRes = await Axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${splitBearer}`);
 
-        const email = tokenRes["email"];
+        const email = tokenRes.data["email"];
+
+        if(email === undefined){
+            throw "Invalid User";
+        }
         
         const allowedToAccess = await isAdmin(email);
 

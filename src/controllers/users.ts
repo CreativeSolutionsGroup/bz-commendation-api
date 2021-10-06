@@ -48,8 +48,7 @@ export const existsInSheet = async (user: string) => {
 
 export const isAdmin = async (user: string) => {
   let adminList = await getAdminUsers();
-
-  return adminList.find(admin => admin === user) !== -1;
+  return adminList.find(admin => admin === user) !== undefined;
 }
 
 const getEmployeeName = async (user: string) => {

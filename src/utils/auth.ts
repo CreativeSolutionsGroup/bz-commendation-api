@@ -10,7 +10,7 @@ export const checkLoggedIn: RequestHandler = async (req: Request, res: Response,
         let splitBearer = bearer.split(" ")[1];
         let tokenRes = await Axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${splitBearer}`);
 
-        const email = tokenRes["email"];
+        const email = tokenRes.data["email"];
         
         const allowedToAccess = await existsInSheet(email);
 

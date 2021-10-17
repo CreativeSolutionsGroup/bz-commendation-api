@@ -15,16 +15,33 @@ export const checkLoggedIn: RequestHandler = async (req: Request, res: Response,
         const allowedToAccess = await existsInSheet(email);
 
         if (!allowedToAccess) {
-            throw "does not exist in sheet";
+            res.status(403).json({
+                type: "failed",
+                message: 'Invalid User'
+            });
+            return;
         }
 
         if (tokenRes.status !== 200) {
-            throw "bad auth";
+            res.status(401).json({
+                type: "failed",
+                message: 'Invalid Auth'
+            });
+            return;
         }
     } catch (e) {
+        console.log(e)
+        if(e.response.status === 400){
+            //Session Expired
+            res.status(401).json({
+                type: "failed",
+                message: "Session Expired"
+            });
+            return;
+        }
         res.status(403).json({
             type: "failed",
-            message: "Authentication failed."
+            message: e
         });
 
         return;

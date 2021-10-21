@@ -2,12 +2,7 @@ import axios from "axios";
 import { Request, Response } from "express"
 import jwtDecode from "jwt-decode";
 import User from "../models/user";
-
-const getGoogleSheetJSON = async (sheetId, tab) => {
-  let res = await axios.get(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${tab}`);
-  const json = JSON.parse(res.data.substr(47).slice(0, -2))
-  return json.table;
-}
+import getGoogleSheetJSON from "../utils/sheets";
 
 const getEmployees = async () => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Members");
@@ -27,9 +22,6 @@ const getEmployees = async () => {
   return employeeData;
 }
 
-const getAllEmployees = async (req: Request, res: Response) => {
-
-}
 
 const getAdminUsers = async () => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Admins");
@@ -80,84 +72,4 @@ const login = (req: Request, res: Response) => {
   }
 }
 
-const getProfileImage = async (req: Request, res: Response) => {
-  let json = await axios.get('https://people.googleapis.com/v1/people/me?personFields=photos', {
-    headers: {
-      'Authorization': req.headers.authorization
-    }
-  });
-  let photos = json.data.photos;
-  if (typeof photos !== "undefined") {
-    let photoURL = '';
-    photos.forEach(photo => {
-      if (photo.metadata.primary) {
-        photoURL = photo.url;
-      }
-    })
-    res.json({
-      message: photoURL
-    })
-  }
-}
-
-const getEmployeePhotos = async (req: Request, res: Response) => {
-  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", 'GoogleIDs');
-  let employeeData = {};
-
-  let rows = json.rows;
-  rows.shift();//Remove top row
-
-  let resourceNames = '';
-  rows.forEach((row) => {
-    let email = row.c[0].v;
-    let id = row.c[1].v;
-
-    resourceNames += "&resourceNames=people/" + id;
-    employeeData[id] = email;
-  });
-
-  const photoJson = await axios.get(`https://people.googleapis.com/v1/people:batchGet?sources=READ_SOURCE_TYPE_DOMAIN_CONTACT&sources=READ_SOURCE_TYPE_PROFILE&personFields=photos` + resourceNames, {
-    headers: {
-      'Authorization': req.headers.authorization
-    }
-  })
-  let responses = photoJson.data.responses;
-  let employeePhotos = {};
-
-  // TODO: Create an interface/type for this.
-  responses.forEach(employeeJsonRes => {
-    let person = employeeJsonRes.person;
-    if (typeof person !== "undefined") {
-      if (typeof person.photos !== "undefined") {
-        let photo = person.photos[0];
-        let id = photo.metadata.source.id;
-        let email = employeeData[id];
-        let photoURL = photo.url;
-        employeePhotos[email] = photoURL;
-      }
-    }
-  });
-  res.json({
-    message: employeePhotos
-  })
-}
-
-const getTeams = async (req: Request, res: Response) => {
-  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", 'Teams');
-  let teamData = [];
-
-  let rows = json.rows;
-  rows.shift();//Remove top row
-  rows.forEach((row) => {
-    let name = row.c[0].v;
-    let emails = row.c[1].v;
-    let image = (row.c[2] === null || row.c[2] === undefined) ? undefined : row.c[2].v;
-
-    teamData.push({ name, emails, image });
-  });
-
-  teamData.sort((a, b) => ('' + a.name).localeCompare(b.name));
-  res.json({message: teamData});
-}
-
-export { login, getEmployeeName, getEmployeePhotos, getTeams, getEmployees }
+export { login, getEmployeeName, getEmployees }

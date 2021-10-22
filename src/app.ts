@@ -16,6 +16,7 @@ AWS.config.update(
 
 import commendationsRouter from "./routers/commendations";
 import userRouter from "./routers/users";
+import suggestionsRouter from "./routers/suggestions";
 
 
 const port = process.env.PORT;
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 
 commendationsRouter(app);
 userRouter(app);
+suggestionsRouter(app);
 
 app.listen(port, () => {
     console.log(`Server started on port ${port} 🚀🚀🚀`);

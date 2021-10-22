@@ -3,6 +3,9 @@ import { getEmployeeName } from "../controllers/users";
 import { createTransport } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
 import dotenv from "dotenv";
+import Suggestion from "../models/suggestion";
+import { getSuggestionTeam } from "../controllers/users";
+import { AddressInstance } from "twilio/lib/rest/api/v2010/account/address";
 
 dotenv.config();
 
@@ -71,6 +74,41 @@ export const emailOthers = async (commendation: Commendation) => {
                             <a style="margin-right: 10px" href="mailto:${commendation.fromEmail}">Email Sender</a>
                             ${" "}
                             <a href="mailto:${commendation.toEmail}">Email Recipient</a>
+                        </div>
+                    </div>
+                </div>`,
+    } as MailOptions;
+    let mailRes = await mail.sendMail(msg)
+    .catch((error) => {
+        console.error(error)
+    });
+
+    return mailRes;
+}
+
+export const emailSuggestionTeam = async (suggestion: Suggestion) => {
+    let suggestionTeam = await getSuggestionTeam();
+    let senderName = await getEmployeeName(suggestion.fromEmail);  
+    const msg = {
+        to: "aidangraef@cedarville.edu",//for testing. The real line will read: suggestionTeam,
+        from: process.env.EMAIL,
+        subject: `[bz_commendations] ${senderName} has written a suggestion for ${suggestion.toTeam}`,
+        text: `${suggestion.message}\n\n-${senderName}`,
+        html: `<div>
+                    <img width="500" height="100" src="http://drive.google.com/uc?export=view&id=1hReQjYUGqZXHK_WT1Q7TAhFbx4jVWa4z"/>
+                    <div style="margin-top: 20px">
+                        <div style="margin-left: 20px">
+                            <h2>${senderName} has written a suggestion</h2>
+                        </div>
+                        <p style="margin-left: 40px; white-space: pre-line">${suggestion.message}</p>
+                        <div style="margin-left: 20px">
+                            <h3>- ${senderName}</h3>
+                        </div>
+                    </div>
+                    <div style="margin-left: auto; margin-right: auto">
+                        <div style="display: flex">
+                            <a style="margin-right: 10px" href="mailto:${suggestion.fromEmail}">Email Sender</a>
+                            ${" "}
                         </div>
                     </div>
                 </div>`,

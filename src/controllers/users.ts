@@ -55,8 +55,7 @@ export const getSuggestionTeam = async () => {
 
 export const existsInSheet = async (user: string) => {
   let employees = await getEmployees();
-
-  return employees.find(employee => employee.email === user) !== -1;
+  return employees.find(employee => employee.email === user) !== undefined;
 }
 
 export const isAdmin = async (user: string) => {
@@ -68,7 +67,7 @@ const getEmployeeName = async (user: string) => {
   let employees = await getEmployees();
 
   let foundEmployee = employees.find(employee => employee.email === user);
-  if(foundEmployee !== -1){
+  if(foundEmployee !== undefined){
     return foundEmployee.name;
   }
   return user;

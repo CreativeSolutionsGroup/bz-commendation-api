@@ -90,7 +90,7 @@ export const emailSuggestionTeam = async (suggestion: Suggestion) => {
     let suggestionTeam = await getSuggestionTeam();
     let senderName = await getEmployeeName(suggestion.fromEmail);  
     const msg = {
-        to: "aidangraef@cedarville.edu",//for testing. The real line will read: suggestionTeam,
+        to: suggestionTeam,
         from: process.env.EMAIL,
         subject: `[bz_commendations] ${senderName} has written a suggestion for ${suggestion.toTeam}`,
         text: `${suggestion.message}\n\n-${senderName}`,
@@ -98,7 +98,7 @@ export const emailSuggestionTeam = async (suggestion: Suggestion) => {
                     <img width="500" height="100" src="http://drive.google.com/uc?export=view&id=1hReQjYUGqZXHK_WT1Q7TAhFbx4jVWa4z"/>
                     <div style="margin-top: 20px">
                         <div style="margin-left: 20px">
-                            <h2>${senderName} has written a suggestion</h2>
+                            <h2>${senderName} has written a suggestion for ${suggestion.toTeam}</h2>
                         </div>
                         <p style="margin-left: 40px; white-space: pre-line">${suggestion.message}</p>
                         <div style="margin-left: 20px">

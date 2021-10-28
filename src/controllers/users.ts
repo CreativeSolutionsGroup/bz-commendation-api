@@ -2,12 +2,7 @@ import axios from "axios";
 import { Request, Response } from "express"
 import jwtDecode from "jwt-decode";
 import User from "../models/user";
-
-const getGoogleSheetJSON = async (sheetId, tab) => {
-  let res = await axios.get(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${tab}`);
-  const json = JSON.parse(res.data.substr(47).slice(0, -2))
-  return json.table;
-}
+import getGoogleSheetJSON from "../utils/sheets";
 
 const getEmployees = async () => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Members");
@@ -26,6 +21,15 @@ const getEmployees = async () => {
 
   return employeeData;
 }
+
+const getEmployeesRet = async (req: Request, res: Response) => {
+  const emp = await getEmployees();
+
+  res.json({
+    message: emp
+  });
+}
+
 
 const getAdminUsers = async () => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Admins");
@@ -67,7 +71,7 @@ const getEmployeeName = async (user: string) => {
   let employees = await getEmployees();
 
   let foundEmployee = employees.find(employee => employee.email === user);
-  if(foundEmployee !== undefined){
+  if (typeof foundEmployee !== "undefined") {
     return foundEmployee.name;
   }
   return user;
@@ -89,4 +93,4 @@ const login = (req: Request, res: Response) => {
   }
 }
 
-export { login, getEmployeeName }
+export { login, getEmployeeName, getEmployeesRet }

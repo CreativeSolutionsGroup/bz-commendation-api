@@ -16,8 +16,8 @@ AWS.config.update(
 
 import commendationsRouter from "./routers/commendations";
 import userRouter from "./routers/users";
+import employeeRouter from "./routers/employees";
 import suggestionsRouter from "./routers/suggestions";
-
 
 const port = process.env.PORT;
 const app = express();
@@ -26,6 +26,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 commendationsRouter(app);
+employeeRouter(app);
 userRouter(app);
 suggestionsRouter(app);
 

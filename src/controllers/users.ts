@@ -22,6 +22,14 @@ const getEmployees = async () => {
   return employeeData;
 }
 
+const getEmployeesRet = async (req: Request, res: Response) => {
+  const emp = await getEmployees();
+
+  res.json({
+    message: emp
+  });
+}
+
 
 const getAdminUsers = async () => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Admins");
@@ -72,4 +80,4 @@ const login = (req: Request, res: Response) => {
   }
 }
 
-export { login, getEmployeeName, getEmployees }
+export { login, getEmployeeName, getEmployeesRet }

@@ -5,7 +5,7 @@ import getGoogleSheetJSON from "../utils/sheets";
 const getProfileImage = async (req: Request, res: Response) => {
   let json = await axios.get('https://people.googleapis.com/v1/people/me?personFields=photos', {
     headers: {
-      'Authorization': req.headers.authorization
+      'Authorization': `Bearer ${req.query.access}`
     }
   });
   let photos = json.data.photos;
@@ -40,7 +40,7 @@ const getEmployeePhotos = async (req: Request, res: Response) => {
 
   const photoJson = await axios.get(`https://people.googleapis.com/v1/people:batchGet?sources=READ_SOURCE_TYPE_DOMAIN_CONTACT&sources=READ_SOURCE_TYPE_PROFILE&personFields=photos` + resourceNames, {
     headers: {
-      'Authorization': req.headers.authorization
+      'Authorization': `Bearer ${req.query.access}`
     }
   })
   let responses = photoJson.data.responses;

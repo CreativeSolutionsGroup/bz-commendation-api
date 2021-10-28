@@ -44,6 +44,19 @@ const getAdminUsers = async () => {
   return adminList;
 }
 
+export const getSuggestionTeam = async () => {
+  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Suggestion Team");
+  let suggestionTeam = [];
+
+  let rows = json.rows;
+  rows.forEach((row) => {
+    let email = row.c[0].v;
+    suggestionTeam.push(email)
+  });
+
+  return suggestionTeam;
+}
+
 export const existsInSheet = async (user: string) => {
   let employees = await getEmployees();
   return employees.find(employee => employee.email === user) !== undefined;

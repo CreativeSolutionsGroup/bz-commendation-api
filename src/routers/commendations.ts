@@ -23,6 +23,9 @@ const commendationRoutes = (app: Express): void => {
 
     app.route(`/commendation/admin`)
         .get(all, checkAdmin);
+
+    app.route(`/commendation/kiosk`)
+        .post(create);
 }
 
 export default commendationRoutes;

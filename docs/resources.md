@@ -5,7 +5,7 @@ This is a guide on to how to create a new "resource".
 ***"Rest Resources are data points on which we want to perform operation(s)."***
 
 ## Step 1
-Create a router in @/src/routers
+Create a router in `@/src/routers`
 
 `<resource name>.ts`
 
@@ -29,7 +29,7 @@ export default resourceRoutes;
 createResource will be undefined. Anywhere you see "resource," replace it with the name of your resource.
 
 ## Step 2
-Create a controller in @/src/controllers
+Create a controller in `@/src/controllers`
 
 `<resource name>.ts`
 

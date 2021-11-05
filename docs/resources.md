@@ -12,6 +12,7 @@ Create a router in `@/src/routers`
 Then, copy paste this code:
 
 ```typescript
+// @/src/routers/myResource.ts
 import { Express } from "express";
 
 import { checkLoggedIn, checkAdmin } from "../utils/auth";
@@ -36,6 +37,7 @@ Create a controller in `@/src/controllers`
 Then, copy paste this code:
 
 ```typescript
+// @/src/controllers/myResource.ts
 import { Request, Response } from "express";
 import AWS from "aws-sdk";
 import jwt_decode from "jwt-decode";

@@ -92,31 +92,10 @@ export const emailSuggestionTeam = async (suggestion: Suggestion) => {
     let senderName = await getEmployeeName(suggestion.fromEmail);  
     let imageURL = await getTeamLogo(suggestion.toTeam);
     const msg = {
-        to: "alecmathisen@cedarville.edu",
+        to: suggestionTeam,
         from: process.env.EMAIL,
         subject: `[bz_commendations] ${senderName} has written a suggestion for ${suggestion.toTeam}`,
         text: `${suggestion.message}\n\n-${senderName}`,
-        /*html: `<div>
-                    <img width="500" height="100" src="http://drive.google.com/uc?export=view&id=1hReQjYUGqZXHK_WT1Q7TAhFbx4jVWa4z" style="margin-left: auto; margin-right: auto;"/>
-                    <div style="display: flex; width: 200; height: 200; margin-left: auto; margin-right: auto; margin-top: 20px;">
-                        <img width="200" height="200" resize-mode='center' style="align-self: center; object-fit: scale-down;" src='${imageURL}'/>
-                    </div>
-                    <div style="margin-top: 20px; margin-left: auto; margin-right: auto;">
-                        <div style="margin-left: 20px">
-                            <h2>${senderName} has written a suggestion for ${suggestion.toTeam}</h2>
-                        </div>
-                        <p style="margin-left: 40px; white-space: pre-line">${suggestion.message}</p>
-                        <div style="margin-left: 20px">
-                            <h3>- ${senderName}</h3>
-                        </div>
-                    </div>
-                    <div style="margin-left: auto; margin-right: auto">
-                        <div style="display: flex">
-                            <a style="margin-right: 10px" href="mailto:${suggestion.fromEmail}">Email Sender</a>
-                            ${" "}
-                        </div>
-                    </div>
-                </div>`,*/
                 html: `
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>

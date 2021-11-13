@@ -1,7 +1,7 @@
 import { Express } from "express";
 import { all, get, update, create, del } from "../controllers/commendations";
 
-import { checkLoggedIn, checkAdmin } from "../utils/auth";
+import { checkLoggedIn, checkAdmin, checkExec } from "../utils/auth";
 
 const commendationRoutes = (app: Express): void => {
     console.log(`Registering commendation routes.`)
@@ -11,6 +11,9 @@ const commendationRoutes = (app: Express): void => {
 
     app.route(`/checkAdmin`)
         .get(checkAdmin, (_, res) => { res.json({ message: `You are admin.` }) });
+
+    app.route(`/checkExec`)
+        .get(checkExec, (_, res) => { res.json({ message: `You are exec.` }) });
 
     app.route(`/commendation`)
         .get(checkLoggedIn, all)

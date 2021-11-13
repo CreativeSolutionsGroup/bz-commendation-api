@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express"
 import jwtDecode from "jwt-decode";
+import { TemplateInstance } from "twilio/lib/rest/verify/v2/template";
 import User from "../models/user";
 
 const getGoogleSheetJSON = async (sheetId, tab) => {
@@ -40,6 +41,19 @@ const getAdminUsers = async () => {
   return adminList;
 }
 
+const getExecUsers = async () => {
+  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Execs");
+  let execList = [];
+
+  let rows = json.rows;
+  rows.forEach((row) => {
+    let email = row.c[0].v;
+    execList.push(email)
+  });
+
+  return execList;
+}
+
 export const getSuggestionTeam = async () => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Suggestion Team");
   let suggestionTeam = [];
@@ -53,6 +67,22 @@ export const getSuggestionTeam = async () => {
   return suggestionTeam;
 }
 
+// used to determine team given exec email
+export const determineTeam = async (email) => {
+  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Execs");
+  
+  let team = "";
+  let rows = json.rows;
+  rows.forEach((row) => {
+    let emailInSheet = row.c[0].v;
+    if(email == emailInSheet) {
+      team = row.c[1].v;
+    }
+  });
+
+  return team;
+}
+
 export const existsInSheet = async (user: string) => {
   let employees = await getEmployees();
   return employees.find(employee => employee.email === user) !== undefined;
@@ -61,6 +91,11 @@ export const existsInSheet = async (user: string) => {
 export const isAdmin = async (user: string) => {
   let adminList = await getAdminUsers();
   return adminList.find(admin => admin === user) !== undefined;
+}
+
+export const isExec = async (user: string) => {
+  let execList = await getExecUsers();
+  return execList.find(exec => exec === user) !== undefined;
 }
 
 const getEmployeeName = async (user: string) => {

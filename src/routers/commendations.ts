@@ -1,5 +1,6 @@
 import { Express } from "express";
 import { all, get, update, create, del } from "../controllers/commendations";
+import { determineTeam, getExecTeam } from "../controllers/users";
 
 import { checkLoggedIn, checkAdmin, checkExec } from "../utils/auth";
 
@@ -14,6 +15,9 @@ const commendationRoutes = (app: Express): void => {
 
     app.route(`/checkExec`)
         .get(checkExec, (_, res) => { res.json({ message: `You are exec.` }) });
+
+    app.route('/getExecTeam')
+        .get(checkExec, getExecTeam);
 
     app.route(`/commendation`)
         .get(checkLoggedIn, all)

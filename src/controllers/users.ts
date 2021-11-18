@@ -75,12 +75,47 @@ export const determineTeam = async (email) => {
   let rows = json.rows;
   rows.forEach((row) => {
     let emailInSheet = row.c[0].v;
+    console.log(emailInSheet)
     if(email == emailInSheet) {
       team = row.c[1].v;
+      console.log("team: " + team)
     }
   });
 
   return team;
+}
+
+const getExecTeam = async (req: Request, res: Response) => {
+  let bearer = req.headers.authorization;
+
+    try {
+
+        // get token
+        let splitBearer = bearer.split(" ")[1];
+        let tokenRes = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${splitBearer}`);
+
+        // pull email out of token
+        const email = tokenRes.data["email"];
+        if(email === undefined){
+            throw "Invalid User";
+        }
+        
+        // check which team the exec is over
+        const team = await determineTeam(email);
+        console.log("after determine team: " + team);
+
+        if (tokenRes.status !== 200) {
+            throw "bad auth";
+        }
+
+        // this line added
+        return res.status(200).json({
+            message: team
+        });
+
+    } catch (e) {
+      return res.json({ response: "Failed", reason: e });
+    }
 }
 
 export const existsInSheet = async (user: string) => {
@@ -124,4 +159,4 @@ const login = (req: Request, res: Response) => {
   }
 }
 
-export { login, getEmployeeName }
+export { login, getEmployeeName, getExecTeam }

@@ -45,11 +45,17 @@ const getAdminUsers = async () => {
   return adminList;
 }
 
-export const getSuggestionTeam = async () => {
+export const getSuggestionTeam = async (team: String) => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Suggestion Team");
   let suggestionTeam = [];
 
   let rows = json.rows;
+  
+  if (Object.keys(rows.c).length > 1) {
+    console.log("DANGER. Not using the right sheet for emails.");
+    return;
+  }
+
   rows.forEach((row) => {
     let email = row.c[0].v;
     suggestionTeam.push(email)

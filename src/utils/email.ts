@@ -88,7 +88,7 @@ export const emailOthers = async (commendation: Commendation) => {
 }
 
 export const emailSuggestionTeam = async (suggestion: Suggestion) => {
-    let suggestionTeam = await getSuggestionTeam();
+    let suggestionTeam = await getSuggestionTeam(suggestion.toTeam);
     let senderName = await getEmployeeName(suggestion.fromEmail);  
     let imageURL = await getTeamLogo(suggestion.toTeam);
     const msg = {

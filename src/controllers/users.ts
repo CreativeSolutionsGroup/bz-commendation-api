@@ -49,11 +49,15 @@ export const getSuggestionTeam = async (team: String) => {
   let suggestionTeam = [];
 
   let rows = json.rows;
+  
+  if (Object.keys(rows.c).length > 1) {
+    console.log("DANGER. Not using the right sheet for emails.");
+    return;
+  }
+
   rows.forEach((row) => {
-    if (row.c[2].v === team) {
-      let email = row.c[0].v;
-      suggestionTeam.push(email)
-    }
+    let email = row.c[0].v;
+    suggestionTeam.push(email)
   });
 
   return suggestionTeam;

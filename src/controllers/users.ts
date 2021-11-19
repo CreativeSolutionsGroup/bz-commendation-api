@@ -44,14 +44,16 @@ const getAdminUsers = async () => {
   return adminList;
 }
 
-export const getSuggestionTeam = async () => {
+export const getSuggestionTeam = async (team: String) => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Suggestion Team");
   let suggestionTeam = [];
 
   let rows = json.rows;
   rows.forEach((row) => {
-    let email = row.c[0].v;
-    suggestionTeam.push(email)
+    if (row.c[2].v === team) {
+      let email = row.c[0].v;
+      suggestionTeam.push(email)
+    }
   });
 
   return suggestionTeam;

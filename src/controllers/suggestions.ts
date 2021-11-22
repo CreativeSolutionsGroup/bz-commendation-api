@@ -20,7 +20,7 @@ const create = async (req: Request, res: Response) => {
         if(!muteEmail){
             await emailSuggestionTeam(newSuggestion);
         }      
-        return res.json("Finished.");
+        return res.json(newSuggestion);
     } catch (e) {
         return res.json({ response: "Failed", reason: e });
     }

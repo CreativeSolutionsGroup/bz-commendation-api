@@ -7,6 +7,8 @@ paths:
   /commendation:
     get:
       description: Gets all commendations.
+      security:
+        - cookieAuth: []
       responses:
         200:
           description: A list of commendations.
@@ -18,12 +20,16 @@ paths:
                   $ref: "#/components/schemas/Commendation"
     put:
       description: Updates a commendation
+      security:
+        - cookieAuth: []
       deprecated: true
       responses:
         200:
           description: A commendation has successfully been updated. UNIMPLEMENTED. DO NOT USE.
     post:
       description: Creates a commendation
+      security:
+        - cookieAuth: []
       responses:
         200:
           description: A correctly created commendation has been inserted.
@@ -34,6 +40,8 @@ paths:
   /commendation/user:
     get:
       description: Gets a user's commendation by email.
+      security:
+        - cookieAuth: []
       responses:
         200:
           description: One user's commendations.
@@ -45,6 +53,8 @@ paths:
                   $ref: "#/components/schemas/Commendation"
     delete:
       description: Deletes a commendation
+      security:
+        - cookieAuth: []
       deprecated: true
       responses:
         200:
@@ -54,11 +64,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ItemCollectionMetrics"
       
-                
-
-
-          
 components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: AUTHORIZATION
   schemas:
     Commendation:
       type: object

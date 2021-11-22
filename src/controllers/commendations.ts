@@ -63,7 +63,7 @@ const create = async (req: Request, res: Response) => {
         }
         await sendText(newCommendation);
       
-        return res.json("Finished.");
+        return res.json(newCommendation);
     } catch (e) {
         return res.json({ response: "Failed", reason: e });
     }

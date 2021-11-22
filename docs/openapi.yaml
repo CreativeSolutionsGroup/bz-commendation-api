@@ -63,6 +63,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ItemCollectionMetrics"
+  /checkAuth:
+    get:
+      responses:
+        200:
+          description: Checks if you are authenticated. Used for frontend auth.
+  /checkAdmin:
+    get:
+      responses:
+        200:
+          description: Checks if you are authenticated as an admin. Used for frontend auth.
+
       
 components:
   securitySchemes:
@@ -71,6 +82,13 @@ components:
       in: cookie
       name: AUTHORIZATION
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: object
     Commendation:
       type: object
       properties:

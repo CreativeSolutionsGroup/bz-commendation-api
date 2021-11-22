@@ -4,9 +4,11 @@ info:
   title: BZ Commendations API
   description: The API that describes the BZ Commendations backend.
 paths:
+  # Commendation paths.
   /commendation:
     get:
       description: Gets all commendations.
+      deprecated: true
       security:
         - cookieAuth: []
       responses:
@@ -63,6 +65,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ItemCollectionMetrics"
+  /commendation/admin:
+    get:
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: A list of commendations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Commendation"
+  /commendation/kiosk:
+    post:
+      description: Creates a commendation
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: A correctly created commendation has been inserted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Commendation"
   /checkAuth:
     get:
       responses:
@@ -70,11 +97,27 @@ paths:
           description: Checks if you are authenticated. Used for frontend auth.
   /checkAdmin:
     get:
+      security:
+        - cookieAuth: []
       responses:
         200:
           description: Checks if you are authenticated as an admin. Used for frontend auth.
+  # Suggestions
+  /suggestion:
+    post:
+      description: Creates a new suggestion.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: Returns the new suggestion
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Suggestion"
 
-      
+
+
 components:
   securitySchemes:
     cookieAuth:
@@ -91,6 +134,13 @@ components:
           type: object
     Commendation:
       type: object
+      required:
+        - date
+        - message
+        - fromEmail
+        - toEmail
+        - otherEmails
+        - phone
       properties:
         _id:
           type: string
@@ -107,6 +157,22 @@ components:
           items:
             type: string
         phone:
+          type: string
+    Suggestion:
+      type: object
+      required:
+        - date
+        - message
+        - fromEmail
+        - toTeam
+      properties:
+        date:
+          type: string
+        message:
+          type: string
+        fromEmail:
+          type: string
+        toTeam:
           type: string
     ItemCollectionMetrics:
       type: object

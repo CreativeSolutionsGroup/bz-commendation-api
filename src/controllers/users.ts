@@ -14,7 +14,8 @@ const getEmployees = async () => {
     let email = row.c[0].v;
     let name = row.c[1].v;
     let team = row.c[2].v;
-    employeeData.push({ email: email, name: name, team: team })
+    let phone = row.c[3] === null || row.c[3] === undefined || row.c[3] === "" ? undefined : row.c[3].v;
+    employeeData.push({ email: email, name: name, team: team, phone: phone })
   });
 
   employeeData.sort((a, b) => ('' + a.name).localeCompare(b.name));
@@ -44,11 +45,17 @@ const getAdminUsers = async () => {
   return adminList;
 }
 
-export const getSuggestionTeam = async () => {
+export const getSuggestionTeam = async (team: String) => {
   let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Suggestion Team");
   let suggestionTeam = [];
 
   let rows = json.rows;
+  
+  if (Object.keys(rows.c).length > 1) {
+    console.log("DANGER. Not using the right sheet for emails.");
+    return;
+  }
+
   rows.forEach((row) => {
     let email = row.c[0].v;
     suggestionTeam.push(email)

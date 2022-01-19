@@ -23,7 +23,8 @@ export const sendText = async (commendation: Commendation) => {
     }
 
     let textMessage = `You received a BZ Commendation! \n\n${message}\n--${senderName}\n(bz-cedarville.com)`
-    console.log(textMessage)
+    console.log("Text to: " + commendation.phone);
+    console.log(textMessage);
     let phoneResponse = await client.messages
     .create({
         from: twilioNumber,

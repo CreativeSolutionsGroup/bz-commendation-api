@@ -1,10 +1,10 @@
 import { Express } from "express";
 import { create } from "../controllers/suggestions";
 
-import { checkLoggedIn, checkAdmin } from "../utils/auth";
+import { checkLoggedIn } from "../utils/auth";
 
 const suggestionRoutes = (app: Express): void => {
-    console.log(`Registering commendation routes.`)
+    console.log(`Registering suggestion routes.`)
 
     app.route(`/suggestion`)
         .post(checkLoggedIn, create);

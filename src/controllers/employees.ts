@@ -82,4 +82,21 @@ const getTeams = async (req: Request, res: Response) => {
   res.json({message: teamData});
 }
 
-export { getProfileImage, getEmployeePhotos, getTeams }
+const getTeamLogo = async (teamName) => {
+  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", 'Teams');
+  let rows = json.rows;
+
+  let teamImageURL = "";
+  rows.shift();//Remove top row
+  await rows.forEach((row) => {
+    let name = row.c[0].v;
+    let emails = row.c[1].v;
+    let image = (row.c[2] === null || row.c[2] === undefined) ? undefined : row.c[2].v;
+    if(name === teamName){
+      teamImageURL = image;
+    }
+  });
+  return teamImageURL;
+}
+
+export { getProfileImage, getEmployeePhotos, getTeams, getTeamLogo}

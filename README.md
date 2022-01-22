@@ -1,9 +1,5 @@
 # Commendations Backend
 
-## HOW-TO
-
-Creating a new endpoint - `@/docs/resources.md`
-
 ### Obtain access key for AWS
 
 https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-your-credentials.html

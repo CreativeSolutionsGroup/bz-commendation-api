@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "watch": "tsc -w"
+  },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.25.0",
     "@aws-sdk/types": "^3.25.0",
@@ -35,6 +38,7 @@
   "devDependencies": {
     "@swc/cli": "^0.1.51",
     "@swc/core": "^1.2.111",
+    "concurrently": "^7.0.0",
     "serverless": "^2.54.0",
     "serverless-offline": "^8.0.0",
     "serverless-plugin-typescript": "^1.1.9",

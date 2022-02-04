@@ -1,5 +1,12 @@
 # Commendations Backend
 
+## Index
+
+- Development `/docs/development.md`
+- Deployment `/docs/deployment.md`
+- Learn about
+  - Resources/REST endpoints `/docs/resources.md
+
 ## HOW-TO
 
 Creating a new endpoint - `@/docs/resources.md`

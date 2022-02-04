@@ -1,0 +1,292 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: BZ Commendations API
+  description: The API that describes the BZ Commendations backend.
+paths:
+  # Commendation paths.
+  /commendation:
+    get:
+      tags:
+        - commendation
+      description: Gets all commendations.
+      deprecated: true
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: A list of commendations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Commendation"
+    put:
+      tags:
+        - commendation
+      description: Updates a commendation
+      security:
+        - cookieAuth: []
+      deprecated: true
+      responses:
+        200:
+          description: A commendation has successfully been updated. UNIMPLEMENTED. DO NOT USE.
+    post:
+      tags:
+        - commendation
+      description: Creates a commendation
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: A correctly created commendation has been inserted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Commendation"
+  /commendation/user:
+    get:
+      tags:
+        - commendation
+      description: Gets a user's commendation by email.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: One user's commendations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Commendation"
+    delete:
+      tags:
+        - commendation
+      description: Deletes a commendation
+      security:
+        - cookieAuth: []
+      deprecated: true
+      responses:
+        200:
+          description: Successfully deleted a commendation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemCollectionMetrics"
+  /commendation/admin:
+    get:
+      tags:
+        - commendation
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: A list of commendations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Commendation"
+  /commendation/kiosk:
+    post:
+      tags:
+        - commendation
+      description: Creates a commendation
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: A correctly created commendation has been inserted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Commendation"
+  /checkAuth:
+    get:
+      tags:
+        - auth
+      responses:
+        200:
+          description: Checks if you are authenticated. Used for frontend auth.
+  /checkAdmin:
+    get:
+      tags:
+        - auth
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: Checks if you are authenticated as an admin. Used for frontend auth.
+  # Suggestions
+  /suggestion:
+    post:
+      tags:
+        - suggestion
+      description: Creates a new suggestion.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: Returns the new suggestion
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Suggestion"
+  # Employees
+  /employees:
+    get:
+      tags:
+        - employee
+      description: Get all employees.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: Returns all of the employees.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+  /employees/teams:
+    get:
+      tags:
+        - employee
+      description: Get all of the teams.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: Returns all of the teams that an employee could be part of.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Team"
+  /employees/profiles:
+    get:
+      tags:
+        - employee
+      description: Gets all employee profile pictures.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: An array of all of the employee's photo URIs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /employees/profiles/me:
+    get:
+      tags:
+        - employee
+      description: Gets the current user's profile image.
+      security:
+        - cookieAuth: []
+      responses:
+        200:
+          description: A URI to the current user's profile image.
+          content:
+            application/json:
+              schema:
+                type: string
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: AUTHORIZATION
+  schemas:
+    Team:
+      type: object
+      properties:
+        name:
+          type: string
+        emails:
+          type: string
+        image:
+          type: string
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        team:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: object
+    Commendation:
+      type: object
+      required:
+        - date
+        - message
+        - fromEmail
+        - toEmail
+        - otherEmails
+        - phone
+      properties:
+        _id:
+          type: string
+        date:
+          type: string
+        message:
+          type: string
+        fromEmail:
+          type: string
+        toEmail:
+          type: string
+        otherEmails:
+          type: array
+          items:
+            type: string
+        phone:
+          type: string
+    Suggestion:
+      type: object
+      required:
+        - date
+        - message
+        - fromEmail
+        - toTeam
+      properties:
+        date:
+          type: string
+        message:
+          type: string
+        fromEmail:
+          type: string
+        toTeam:
+          type: string
+    Message:
+      type: object
+      properties:
+        message:
+          type: object
+    ItemCollectionMetrics:
+      type: object
+      properties:
+        ItemCollectionKey:
+          type: array
+          items:
+            type: object
+        SizeEstimateRangeGB:
+          type: array
+          items:
+            type: integer
+

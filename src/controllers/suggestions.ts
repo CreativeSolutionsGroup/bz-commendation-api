@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import AWS from "aws-sdk";
+import { emailSuggestionTeam } from "../utils/email";
 import jwt_decode from "jwt-decode";
-import { email, emailOthers, emailSuggestionTeam } from "../utils/email";
 import Suggestion from "../models/suggestion";
 
 AWS.config.update({ region: "us-east-2" });
@@ -22,7 +22,7 @@ const create = async (req: Request, res: Response) => {
         if(!muteEmail){
             await emailSuggestionTeam(newSuggestion);
         }      
-        return res.json("Finished.");
+        return res.json(newSuggestion);
     } catch (e) {
         return res.json({ response: "Failed", reason: e });
     }

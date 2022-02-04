@@ -5,7 +5,7 @@
 - Development `/docs/development.md`
 - Deployment `/docs/deployment.md`
 - Learn about
-  - Resources/REST endpoints `/docs/resources.md
+  - Resources/REST endpoints `/docs/resources.md`
 
 ## HOW-TO
 

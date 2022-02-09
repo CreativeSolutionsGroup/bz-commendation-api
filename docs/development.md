@@ -43,3 +43,13 @@ So, here is our layout:
 - `@/src/routers` This is where the data starts. This defines those `/users/1/...` that we saw above.
 - `@/src/models` These are simply classes (or interfaces, which are syntactically alike) that allow us to structure our data in Typescript.
 - `@/src/controllers` This is where the routers send the data. Here, actual logic of the program is executed.
+
+## How do I start?
+
+Make sure you have NodeJS installed. Hopefully you are using VSCode.
+
+Make sure you have Yarn installed `npm i -g yarn`
+
+1. Run `yarn install`
+2. Fill in your .env as specified in the README.md
+3. Simply open a typescript file and hit `f5`

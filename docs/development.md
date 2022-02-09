@@ -53,3 +53,9 @@ Make sure you have Yarn installed `npm i -g yarn`
 1. Run `yarn install`
 2. Fill in your .env as specified in the README.md
 3. Simply open a typescript file and hit `f5`
+
+Note: Don't have a SQL database? Do these steps:
+
+1. Make sure you have Docker installed (Windows users, talk to your executive)
+2. Go to `tooling/` and type `docker-compose up`
+3. Congrats! Your database is now accessible from `localhost:3306`

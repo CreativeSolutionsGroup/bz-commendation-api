@@ -22,11 +22,13 @@ const commendationRoutes = (app: Express): void => {
 
   app
     .route(`/commendation/user`)
-    .get(get, checkLoggedIn)
-    .delete(del, checkLoggedIn);
+    .get(checkLoggedIn, get)
+    .delete(checkLoggedIn, del);
 
-  app.route(`/commendation/admin`).get(all, checkAdmin);
+  app.route(`/commendation/admin`).get(checkAdmin, all);
 
+  // Note: This is for a "kiosk" that we set up very rarely.
+  // Everyone should be able to hit this.
   app.route(`/commendation/kiosk`).post(create);
 };
 

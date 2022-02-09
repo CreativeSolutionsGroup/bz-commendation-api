@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "watch": "tsc -W"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.25.0",

@@ -13,9 +13,9 @@ const all = async (req: Request, res: Response) => {
         let commendation = await documentClient.scan({
             TableName: "bz_commendation"
         }).promise()
-        return res.json(commendation.Items);
+        return res.status(200).json(commendation.Items);
     } catch (e) {
-        return res.json({ response: "Failed", reason: e });
+        return res.status(500).json({ response: "Failed", reason: e });
     }
 }
 
@@ -23,6 +23,11 @@ const get = async (req: Request, res: Response) => {
     let auth = req.headers.authorization;
 
     let decodedToken = jwt_decode(auth.split(" ")[1]) as any;
+
+    if (!!decodedToken) {
+        res.status(403).json({ response: "Failed to get the username from token.", error: 403 })
+        return;
+    }
 
     try {
         let commendation = await documentClient.scan({
@@ -32,9 +37,9 @@ const get = async (req: Request, res: Response) => {
                 ":email": decodedToken.email
             }
         }).promise()
-        return res.json(commendation.Items);
+        return res.status(200).json(commendation.Items);
     } catch (e) {
-        return res.json({ response: "Failed", reason: e });
+        return res.status(500).json({ response: "Failed", reason: e });
     }
 }
 
@@ -44,7 +49,7 @@ const update = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response) => {
     let muteEmail = req.body.muteEmail;
-    if(muteEmail === undefined){
+    if (muteEmail === undefined) {
         muteEmail = false;
     }
     const newCommendation = req.body as Commendation;
@@ -58,14 +63,14 @@ const create = async (req: Request, res: Response) => {
             Item: newCommendation
         }).promise();
 
-        if(!muteEmail){
+        if (!muteEmail) {
             await emailOthers(newCommendation);
         }
         await sendText(newCommendation);
-      
-        return res.json(newCommendation);
+
+        return res.status(200).json(newCommendation);
     } catch (e) {
-        return res.json({ response: "Failed", reason: e });
+        return res.status(500).json({ response: "Failed", reason: e });
     }
 }
 
@@ -80,9 +85,9 @@ const del = async (req: Request, res: Response) => {
             }
         }).promise();
 
-        return res.json(dcRes.ItemCollectionMetrics);
+        return res.status(200).json(dcRes.ItemCollectionMetrics);
     } catch (e) {
-        return res.json({ response: "Failed", reason: e });
+        return res.status(500).json({ response: "Failed", reason: e });
     }
 }
 

@@ -26,7 +26,7 @@ const getEmployees = async () => {
 const getEmployeesRet = async (req: Request, res: Response) => {
   const emp = await getEmployees();
 
-  res.json({
+  res.status(200).json({
     message: emp
   });
 }
@@ -51,6 +51,7 @@ export const getSuggestionTeam = async (team: String) => {
 
   let rows = json.rows;
   
+  // TODO: Remove for SQL migration
   if (Object.keys(rows.c).length > 1) {
     console.log("DANGER. Not using the right sheet for emails.");
     return;
@@ -84,18 +85,24 @@ const getEmployeeName = async (user: string) => {
   return user;
 }
 
+/**
+ * Logs in a user using JWT.
+ * 
+ * TODO: Migrate off of sheets.
+ * @author Alec Mathisen
+ */
 const login = (req: Request, res: Response) => {
   let user = req.body as User;
   let decodedUser = jwtDecode(user.token) as any;
   let username = decodedUser.email;
 
   if (existsInSheet(username)) {
-    res.json({
+    res.status(200).json({
       message: "Successfully logged in."
     })
   } else {
     res.status(403).json({
-      message: "Did not verify."
+      message: "Verification failed because the user does not exist in the sheet."
     })
   }
 }

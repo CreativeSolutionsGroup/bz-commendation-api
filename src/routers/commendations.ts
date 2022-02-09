@@ -7,11 +7,11 @@ const commendationRoutes = (app: Express): void => {
   console.log(`Registering commendation routes.`);
 
   app.route(`/checkAuth`).get(checkLoggedIn, (_, res) => {
-    res.json({ message: `You are logged in.` });
+    res.status(200).json({ message: `You are logged in.` });
   });
 
   app.route(`/checkAdmin`).get(checkAdmin, (_, res) => {
-    res.json({ message: `You are admin.` });
+    res.status(200).json({ message: `You are admin.` });
   });
 
   app

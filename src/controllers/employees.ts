@@ -2,6 +2,12 @@ import { Request, Response } from "express";
 import axios from "axios";
 import getGoogleSheetJSON from "../utils/sheets";
 
+/**
+ * Specialized profile image endpoint for translating a bearer token in to a profile picture.
+ * NOTE: This may be replaced by firebase.
+ * 
+ * @author Spencer Bills
+ */
 const getProfileImage = async (req: Request, res: Response) => {
   let json = await axios.get('https://people.googleapis.com/v1/people/me?personFields=photos', {
     headers: {
@@ -16,7 +22,7 @@ const getProfileImage = async (req: Request, res: Response) => {
         photoURL = photo.url;
       }
     })
-    res.json({
+    res.status(200).json({
       message: photoURL
     })
   }
@@ -59,9 +65,9 @@ const getEmployeePhotos = async (req: Request, res: Response) => {
       }
     }
   });
-  res.json({
+  res.status(200).json({
     message: employeePhotos
-  })
+  });
 }
 
 const getTeams = async (req: Request, res: Response) => {
@@ -79,7 +85,7 @@ const getTeams = async (req: Request, res: Response) => {
   });
 
   teamData.sort((a, b) => ('' + a.name).localeCompare(b.name));
-  res.json({message: teamData});
+  res.status(200).json({message: teamData});
 }
 
 const getTeamLogo = async (teamName) => {

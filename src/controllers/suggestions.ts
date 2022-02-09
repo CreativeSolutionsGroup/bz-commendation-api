@@ -22,9 +22,9 @@ const create = async (req: Request, res: Response) => {
         if(!muteEmail){
             await emailSuggestionTeam(newSuggestion);
         }      
-        return res.json(newSuggestion);
+        return res.status(200).json(newSuggestion);
     } catch (e) {
-        return res.json({ response: "Failed", reason: e });
+        return res.status(500).json({ response: "Failed", reason: e });
     }
 }
 

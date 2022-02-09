@@ -50,9 +50,11 @@ const createResource = async (req: Request, res: Response) => {
     // Do your logic here.
 
     try {
-       return res.json("Finished.");
+      // We return 200 on success.  
+      return res.status(200).json("Finished.");
     } catch (e) {
-        return res.json({ response: "Failed", reason: e });
+      // We always return 500 on catch errors.
+      return res.status(500).json({ response: "Failed", reason: e });
     }
 }
 

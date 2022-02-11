@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "watch": "tsc -W"
+  },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.25.0",
     "@aws-sdk/types": "^3.25.0",

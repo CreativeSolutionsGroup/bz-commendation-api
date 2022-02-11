@@ -1,8 +1,12 @@
 # Commendations Backend
 
-## HOW-TO
+## Index
 
-Creating a new endpoint - `@/docs/resources.md`
+- Development `@/docs/development.md`
+- Deployment `@/docs/deployment.md`
+- Learn about
+  - This program `@/docs/deployment.md`
+  - Resources/REST endpoints `@/docs/resources.md`
 
 ### Obtain access key for AWS
 
@@ -58,7 +62,7 @@ Then, run
 
 `serverless deploy`.
 
-### How to deploy (EC2)
+### How to deploy via Docker
 
 Must have `docker`, and `docker-compose` installed.
 

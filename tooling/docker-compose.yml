@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - ./bz.sql:/docker-entrypoint-initdb.d/bz.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9000:8080

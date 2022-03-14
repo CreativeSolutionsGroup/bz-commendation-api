@@ -7,11 +7,11 @@ const commendationRoutes = (app: Express): void => {
   console.log(`Registering commendation routes.`);
 
   app.route(`/checkAuth`).get(checkLoggedIn, (_, res) => {
-    res.json({ message: `You are logged in.` });
+    res.status(200).json({ message: `You are logged in.` });
   });
 
   app.route(`/checkAdmin`).get(checkAdmin, (_, res) => {
-    res.json({ message: `You are admin.` });
+    res.status(200).json({ message: `You are admin.` });
   });
 
   app
@@ -22,11 +22,13 @@ const commendationRoutes = (app: Express): void => {
 
   app
     .route(`/commendation/user`)
-    .get(get, checkLoggedIn)
-    .delete(del, checkLoggedIn);
+    .get(checkLoggedIn, get)
+    .delete(checkLoggedIn, del);
 
-  app.route(`/commendation/admin`).get(all, checkAdmin);
+  app.route(`/commendation/admin`).get(checkAdmin, all);
 
+  // Note: This is for a "kiosk" that we set up very rarely.
+  // Everyone should be able to hit this.
   app.route(`/commendation/kiosk`).post(create);
 };
 

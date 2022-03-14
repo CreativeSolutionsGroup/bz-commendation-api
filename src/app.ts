@@ -18,7 +18,6 @@ AWS.config.update({
 
 const port = process.env.PORT;
 const app = express();
-const swaggerDocument = YAML.load("./docs/openapi.yaml");
 // All routes must be registered after this cors call.
 app.use(cors());
 app.use(bodyParser.json());
@@ -27,7 +26,6 @@ commendationsRouter(app);
 employeeRouter(app);
 userRouter(app);
 suggestionsRouter(app);
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.listen(port, () => {
   console.log(`Server started on port ${port} 🚀🚀🚀`);

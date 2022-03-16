@@ -20,3 +20,11 @@ export const updateCommendation = async (commendation: Partial<Commendation>, db
 export const deleteCommendation = async (id: string, db: Connection = getConnection()) => {
   return await db.manager.delete(Commendation, id);
 }
+
+export const getCommendationsByEmail = async (email: string, db: Connection = getConnection()) => {
+  return await db.manager.find(Commendation, {
+    where: {
+      toEmail: email
+    }
+  });
+}

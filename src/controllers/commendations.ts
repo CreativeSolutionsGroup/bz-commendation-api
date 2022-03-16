@@ -5,15 +5,12 @@ import AWS from "aws-sdk";
 import { v4 as uuidv4 } from "uuid";
 import { emailOthers } from "../utils/email";
 import { sendText } from "../utils/phone";
-AWS.config.update({ region: "us-east-2" });
-const documentClient = new AWS.DynamoDB.DocumentClient()
+import { deleteCommendation, getCommendations, getCommendationsByEmail, updateCommendation } from "../services/commendations";
 
 const all = async (req: Request, res: Response) => {
     try {
-        let commendation = await documentClient.scan({
-            TableName: "bz_commendation"
-        }).promise()
-        return res.status(200).json(commendation.Items);
+        const commendations = getCommendations();
+        return res.status(200).json(commendations);
     } catch (e) {
         return res.status(500).json({ response: "Failed", reason: e });
     }
@@ -30,14 +27,8 @@ const get = async (req: Request, res: Response) => {
     }
 
     try {
-        let commendation = await documentClient.scan({
-            TableName: "bz_commendation",
-            FilterExpression: "toEmail = :email",
-            ExpressionAttributeValues: {
-                ":email": decodedToken.email
-            }
-        }).promise()
-        return res.status(200).json(commendation.Items);
+        const commendations = await getCommendationsByEmail(decodedToken.email);
+        return res.status(200).json(commendations);
     } catch (e) {
         return res.status(500).json({ response: "Failed", reason: e });
     }
@@ -58,10 +49,7 @@ const create = async (req: Request, res: Response) => {
     newCommendation.date = new Date().toISOString();
 
     try {
-        await documentClient.put({
-            TableName: "bz_commendation",
-            Item: newCommendation
-        }).promise();
+        updateCommendation(newCommendation);
 
         if (!muteEmail) {
             await emailOthers(newCommendation);
@@ -78,14 +66,9 @@ const del = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     try {
-        const dcRes = await documentClient.delete({
-            TableName: "bz_commendation",
-            Key: {
-                "toEmail": id
-            }
-        }).promise();
+        const dcRes = await deleteCommendation(id);
 
-        return res.status(200).json(dcRes.ItemCollectionMetrics);
+        return res.status(200).json(dcRes);
     } catch (e) {
         return res.status(500).json({ response: "Failed", reason: e });
     }

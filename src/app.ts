@@ -6,10 +6,8 @@ import userRouter from "./routers/users";
 import employeeRouter from "./routers/employees";
 import suggestionsRouter from "./routers/suggestions";
 import serverless from "serverless-http";
-import bodyParser from "body-parser";
 import AWS, { ConfigurationOptions } from "aws-sdk";
-import YAML from "yamljs";
-import swaggerUi from "swagger-ui-express";
+import { initDatabase } from "./utils/database";
 dotenv.config();
 
 AWS.config.update({
@@ -20,12 +18,15 @@ const port = process.env.PORT;
 const app = express();
 // All routes must be registered after this cors call.
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 commendationsRouter(app);
 employeeRouter(app);
 userRouter(app);
 suggestionsRouter(app);
+
+await initDatabase();
 
 app.listen(port, () => {
   console.log(`Server started on port ${port} 🚀🚀🚀`);

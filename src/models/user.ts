@@ -2,8 +2,10 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import Commendation from "./commendation";
 import Role from "./role";
 import Team from "./team";
 
@@ -29,6 +31,12 @@ class User {
 
   @ManyToOne(() => Role)
   role: Role;
+
+  @OneToMany(() => Commendation, comm => comm.toUser)
+  receivedCommendations: Commendation;
+
+  @OneToMany(() => Commendation, comm => comm.fromUser)
+  sentCommendations: Commendation;
 }
 
 export default User;

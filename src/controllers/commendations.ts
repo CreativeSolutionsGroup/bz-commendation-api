@@ -24,7 +24,7 @@ const get = async (req: Request, res: Response) => {
 
     let decodedToken = jwt_decode(auth.split(" ")[1]) as any;
 
-    if (!!decodedToken) {
+    if (!decodedToken) {
         res.status(403).json({ response: "Failed to get the username from token.", error: 403 })
         return;
     }

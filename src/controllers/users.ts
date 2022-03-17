@@ -1,4 +1,4 @@
-import { getUserRole, getUsers } from './../services/users';
+import { getUser, getUsers } from './../services/users';
 import axios from "axios";
 import { Request, Response } from "express"
 import jwtDecode from "jwt-decode";
@@ -43,8 +43,8 @@ export const getUserProfileImage = async (req: Request, res: Response) => {
  * @returns 
  */
 export const isAdmin = async (user: string) => {
-  let r = await getUserRole(user);
-  return r.role === "admin";
+  let u = await getUser(user);
+  return u.role.role === "admin";
 }
 
 const getEmployeeName = async (email: string) => {

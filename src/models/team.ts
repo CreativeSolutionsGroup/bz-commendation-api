@@ -1,4 +1,6 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import EmailList from "./emailList";
+import User from "./user";
 
 class Team {
   @PrimaryGeneratedColumn()
@@ -9,6 +11,12 @@ class Team {
 
   @Column()
   logo: string;
+
+  @OneToMany(() => EmailList, emailList => emailList.team)
+  emailList: Array<EmailList>;
+
+  @OneToMany(() => User, user => user.team)
+  users: Array<User>;
 }
 
 export default Team;

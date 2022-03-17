@@ -1,25 +1,34 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import Role from "./role";
 import Team from "./team";
 
 @Entity()
 class User {
-    @PrimaryGeneratedColumn()
-    id: string;
+  @PrimaryGeneratedColumn()
+  id: string;
 
-    @Column()
-    email: string;
+  @Column()
+  email: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @OneToMany(() => Team, team => team.id)
-    team: number;
+  @Column()
+  phone: string;
 
-    @Column()
-    phone: string;
+  @Column()
+  googleId: string;
 
-    @Column()
-    googleId: string;
+  @ManyToOne(() => Team)
+  team: Team;
+
+  @ManyToOne(() => Role)
+  role: Role;
 }
 
 export default User;

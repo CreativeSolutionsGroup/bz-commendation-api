@@ -90,10 +90,9 @@ export const emailOthers = async (commendation: Commendation) => {
 export const emailSuggestionTeam = async (suggestion: Suggestion) => {
     let suggestionTeam: Team = await getTeam(suggestion.toTeam);
     let senderUser: User = await getUser(suggestion.fromUser);
-    let sendEmailList = await getTeamEmailList(suggestionTeam.id);
-    let sendList = sendEmailList.map(e => e.email);
+    let emails = suggestionTeam.emailList.map(e => e.email);
     const msg = {
-        to: sendList,
+        to: emails,
         from: process.env.EMAIL,
         subject: `[bz_commendations] ${senderUser.email} has written a suggestion for ${suggestionTeam.name}`,
         text: `${suggestion.message}\n\n-${senderUser.email}`,

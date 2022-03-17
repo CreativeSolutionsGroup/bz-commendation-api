@@ -6,8 +6,8 @@ export default class EmailList {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @ManyToOne(() => Team, team => team.id)
-  teamId: string;
+  @ManyToOne(() => Team, team => team.emailList)
+  team: Team;
 
   @Column()
   email: string;

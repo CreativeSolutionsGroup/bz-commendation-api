@@ -3,11 +3,11 @@ import EmailList from '../models/emailList';
 import Team from '../models/team';
 
 export const getTeams = async (db: Connection = getConnection()) => {
-  return await db.getRepository(Team).find();
+  return await db.getRepository(Team).find({ relations: ['emailList', 'users'] });
 }
 
 export const getTeam = async (id: string, db: Connection = getConnection()) => {
-  return await db.getRepository(Team).findOne(id);
+  return await db.getRepository(Team).findOne(id, { relations: ['users', 'emailList'] });
 }
 
 export const createTeam = async (team: Team, db: Connection = getConnection()) => {

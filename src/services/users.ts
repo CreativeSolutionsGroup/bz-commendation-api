@@ -1,21 +1,16 @@
-import axios from "axios";
-import { Request, Response } from "express";
 import { Connection, getConnection } from "typeorm";
-import Role from "../models/role";
 import User from "../models/user";
 
 export const getUsers = async (db: Connection = getConnection()) => {
-  return await db.getRepository(User).find();
+  return await db.getRepository(User).find({ relations: ['role', 'team'] });
 }
 
 /**
  * Gets a user by their auto increment ID
  * @param id The id of the user to find.
- * @param db 
- * @returns 
  */
 export const getUser = async (id: string, db: Connection = getConnection()) => {
-  return await db.getRepository(User).findOne(id);
+  return await db.getRepository(User).findOne(id, { relations: ['role', 'team'] });
 }
 
 export const updateUser = async (id: string, user: Partial<User>, db: Connection = getConnection()) => {
@@ -39,10 +34,4 @@ export const deleteUser = async (id: string, db: Connection = getConnection()) =
 export const userExistsByEmail = async (email: string, db: Connection = getConnection()) => {
   const userCount = await db.getRepository(User).count({ email });
   return userCount === 1;
-}
-
-export const getUserRole = async (id: string, db: Connection = getConnection()) => {
-  const role = await db.getRepository(Role).findOne(id);
-
-  return role;
 }

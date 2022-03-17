@@ -1,7 +1,7 @@
+import { createCommendation } from './../services/commendations';
 import { Request, Response } from "express";
 import jwt_decode from "jwt-decode";
-import Commendation from "../models/commendation";
-import AWS from "aws-sdk";
+import Commendation, { SentCommendation } from "../models/commendation";
 import { v4 as uuidv4 } from "uuid";
 import { emailOthers } from "../utils/email";
 import { sendText } from "../utils/phone";
@@ -43,13 +43,13 @@ const create = async (req: Request, res: Response) => {
     if (muteEmail === undefined) {
         muteEmail = false;
     }
-    const newCommendation = req.body as Commendation;
+    const newCommendation = req.body as SentCommendation;
 
-    newCommendation._id = uuidv4();
-    newCommendation.date = new Date().toISOString();
+    newCommendation.id = uuidv4();
+    newCommendation.dateSent = new Date().toISOString();
 
     try {
-        updateCommendation(newCommendation);
+        createCommendation(newCommendation);
 
         if (!muteEmail) {
             await emailOthers(newCommendation);

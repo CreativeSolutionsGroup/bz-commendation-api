@@ -1,5 +1,5 @@
+import { getUser } from './../services/users';
 import Commendation from "../models/commendation";
-import { getEmployeeName } from "../controllers/users";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -15,23 +15,24 @@ const twilioNumber = process.env.TWILIO_NUMBER;
  */
 export const sendText = async (commendation: Commendation) => {
 
-    let senderName = await getEmployeeName(commendation.fromEmail)
+    let senderUser = await getUser(commendation.fromUser);
+    let toUser = await getUser(commendation.toUser);
     
     let message = commendation.message;
     if (message.length > 90) {
-        message = message.substr(0, 90) + "..."
+        message = message.substring(0, 90) + "..."
     }
 
-    let textMessage = `You received a BZ Commendation! \n\n${message}\n--${senderName}\n(bz-cedarville.com)`
-    console.log("Text to: " + commendation.phone);
+    let textMessage = `You received a BZ Commendation! \n\n${message}\n--${senderUser}\n(bz-cedarville.com)`
+    console.log("Text to: " + toUser.phone);
     console.log(textMessage);
     let phoneResponse = await client.messages
     .create({
         from: twilioNumber,
-        to: commendation.phone,
+        to: toUser.phone,
         body: textMessage
     })
-    .catch((error) => {
+    .catch((error: string) => {
         console.log(error);
     });
     return phoneResponse;

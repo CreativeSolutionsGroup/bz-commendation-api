@@ -1,8 +1,10 @@
+import { getUserProfileImage } from './../controllers/users';
 import { Express } from "express";
-import { getEmployeePhotos, getProfileImage, getTeams } from "../controllers/employees";
+import { getEmployeePhotos } from "../controllers/employees";
 import { getEmployeesRet } from "../controllers/users";
-
 import { checkLoggedIn, checkAdmin } from "../utils/auth";
+import { getTeams } from '../services/team';
+
 const employeeRouter = (app: Express): void => {
     app.route("/employees")
         .get(checkLoggedIn, getEmployeesRet);
@@ -13,9 +15,8 @@ const employeeRouter = (app: Express): void => {
     app.route("/employees/profiles")
         .get(checkLoggedIn, getEmployeePhotos);
 
-
     app.route("/employees/profiles/me")
-        .get(checkLoggedIn, getProfileImage);
+        .get(checkLoggedIn, getUserProfileImage);
 }
 
 export default employeeRouter;

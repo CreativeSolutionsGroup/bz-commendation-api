@@ -1,7 +1,7 @@
+import { userExistsByEmail } from './../services/users';
 import { Request, Response, RequestHandler } from "express";
 import Axios from "axios";
-import { existsInSheet, isAdmin } from "../controllers/users";
-import Commendation from "../models/commendation";
+import { isAdmin } from "../controllers/users";
 
 export const checkLoggedIn: RequestHandler = async (req: Request, res: Response, next) => {
     let bearer = req.headers.authorization;
@@ -12,7 +12,7 @@ export const checkLoggedIn: RequestHandler = async (req: Request, res: Response,
 
         const email = tokenRes.data["email"];
         
-        const allowedToAccess = await existsInSheet(email);
+        const allowedToAccess = await userExistsByEmail(email);
 
         if (!allowedToAccess) {
             res.status(403).json({

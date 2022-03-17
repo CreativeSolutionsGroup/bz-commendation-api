@@ -1,21 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
+import User from "./user";
 
 @Entity()
-class Commendation {
-  @PrimaryColumn()
-  _id: string;
+export default class Commendation {
+  @PrimaryGeneratedColumn()
+  id: string;
+
   @Column()
-  date: string;
+  dateSent: string;
+
+  @OneToOne(() => User, user => user.id)
+  fromUser: string;
+
+  @OneToOne(() => User, user => user.id)
+  toUser: string;
+
   @Column()
   message: string;
-  @Column()
-  fromEmail: string;
-  @Column()
-  toEmail: string;
-  @Column()
-  otherEmails: string[];
-  @Column()
-  phone: string;
 }
 
-export default Commendation;
+export class SentCommendation extends Commendation {
+  date: string;
+  otherEmails: string[];
+  phone: string;
+}

@@ -1,102 +1,80 @@
+import { getUserRole, getUsers } from './../services/users';
 import axios from "axios";
 import { Request, Response } from "express"
 import jwtDecode from "jwt-decode";
-import User from "../models/user";
-import getGoogleSheetJSON from "../utils/sheets";
-
-const getEmployees = async () => {
-  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Members");
-  let employeeData = [];
-
-  let rows = json.rows;
-  rows.shift();//Remove top row
-  rows.forEach((row) => {
-    let email = row.c[0].v;
-    let name = row.c[1].v;
-    let team = row.c[2].v;
-    let phone = row.c[3] === null || row.c[3] === undefined || row.c[3] === "" ? undefined : row.c[3].v;
-    employeeData.push({ email: email, name: name, team: team, phone: phone })
-  });
-
-  employeeData.sort((a, b) => ('' + a.name).localeCompare(b.name));
-
-  return employeeData;
-}
+import { userExistsByEmail } from "../services/users";
 
 const getEmployeesRet = async (req: Request, res: Response) => {
-  const emp = await getEmployees();
+  const emp = await getUsers();
 
   res.status(200).json({
     message: emp
   });
 }
 
-
-const getAdminUsers = async () => {
-  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Admins");
-  let adminList = [];
-
-  let rows = json.rows;
-  rows.forEach((row) => {
-    let email = row.c[0].v;
-    adminList.push(email)
+/**
+ * Specialized profile image endpoint for translating a bearer token in to a profile picture.
+ * 
+ * @author Spencer Bills
+ */
+export const getUserProfileImage = async (req: Request, res: Response) => {
+  let json = await axios.get('https://people.googleapis.com/v1/people/me?personFields=photos', {
+    headers: {
+      'Authorization': `Bearer ${req.query.access}`
+    }
   });
-
-  return adminList;
-}
-
-export const getSuggestionTeam = async (team: String) => {
-  let json = await getGoogleSheetJSON("1zt-TIdmnloixDiXmDWSPKgGcpI8ABaHfouT_jBu-wBI", "Suggestion Team");
-  let suggestionTeam = [];
-
-  let rows = json.rows;
-  
-  // TODO: Remove for SQL migration
-  if (Object.keys(rows.c).length > 1) {
-    console.log("DANGER. Not using the right sheet for emails.");
-    return;
+  let photos = json.data.photos;
+  if (typeof photos !== "undefined") {
+    let photoURL = '';
+    photos.forEach(photo => {
+      if (photo.metadata.primary) {
+        photoURL = photo.url;
+      }
+    })
+    res.status(200).json({
+      message: photoURL
+    })
   }
-
-  rows.forEach((row) => {
-    let email = row.c[0].v;
-    suggestionTeam.push(email)
-  });
-
-  return suggestionTeam;
 }
 
-export const existsInSheet = async (user: string) => {
-  let employees = await getEmployees();
-  return employees.find(employee => employee.email === user) !== undefined;
-}
-
+/**
+ * 
+ * @param user The users UUID.
+ * @returns 
+ */
 export const isAdmin = async (user: string) => {
-  let adminList = await getAdminUsers();
-  return adminList.find(admin => admin === user) !== undefined;
+  let r = await getUserRole(user);
+  return r.role === "admin";
 }
 
-const getEmployeeName = async (user: string) => {
-  let employees = await getEmployees();
+const getEmployeeName = async (email: string) => {
+  let employees = await getUsers();
 
-  let foundEmployee = employees.find(employee => employee.email === user);
+  let foundEmployee = employees.find(employee => employee.email === email);
   if (typeof foundEmployee !== "undefined") {
     return foundEmployee.name;
   }
-  return user;
+  return email;
+}
+
+/**
+ * A simple interface to so that we don't have to have a token variable on User.
+ */
+interface LocalUser {
+  token: string
 }
 
 /**
  * Logs in a user using JWT.
  * 
- * TODO: Migrate off of sheets.
  * @author Alec Mathisen
  */
 const login = (req: Request, res: Response) => {
-  let user = req.body as User;
+  let user = req.body as LocalUser;
   let decodedUser = jwtDecode(user.token) as any;
-  let username = decodedUser.email;
+  let email = decodedUser.email;
 
-  if (existsInSheet(username)) {
+  if (userExistsByEmail(email)) {
     res.status(200).json({
       message: "Successfully logged in."
     })

@@ -6,13 +6,8 @@ import userRouter from "./routers/users";
 import employeeRouter from "./routers/employees";
 import suggestionsRouter from "./routers/suggestions";
 import serverless from "serverless-http";
-import AWS, { ConfigurationOptions } from "aws-sdk";
 import { initDatabase } from "./utils/database";
 dotenv.config();
-
-AWS.config.update({
-  region: "us-east-2",
-} as ConfigurationOptions);
 
 const port = process.env.PORT;
 const app = express();

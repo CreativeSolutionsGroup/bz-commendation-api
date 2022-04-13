@@ -1,7 +1,8 @@
-import { Column, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import EmailList from "./emailList";
 import User from "./user";
 
+@Entity({ name: "team"})
 class Team {
   @PrimaryGeneratedColumn()
   id: number;

@@ -2,7 +2,7 @@ import { Connection, getConnection } from "typeorm";
 import User from "../models/user";
 
 export const getUsers = async (db: Connection = getConnection()) => {
-  return await db.getRepository(User).find({ relations: ['role', 'team'] });
+  return await db.getRepository(User).find({order: { name: "ASC" }, relations: ['role', 'team'] });
 }
 
 /**

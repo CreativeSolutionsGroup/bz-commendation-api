@@ -30,8 +30,7 @@ export const checkLoggedIn: RequestHandler = async (req: Request, res: Response,
             return;
         }
     } catch (e) {
-        console.log(e)
-        if(e.response.status === 400){
+        if(e.response && e.response.status === 400){
             //Session Expired
             res.status(401).json({
                 type: "failed",
@@ -75,7 +74,8 @@ export const checkAdmin: RequestHandler = async (req: Request, res: Response, ne
     } catch (e) {
         res.status(403).json({
             type: "failed",
-            message: "Authentication failed."
+            message: `Auth failed ${e}`,
+            raw: e
         });
 
         return;

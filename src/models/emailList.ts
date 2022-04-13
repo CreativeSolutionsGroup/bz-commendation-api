@@ -1,7 +1,7 @@
 import { PrimaryGeneratedColumn, Column, Entity, OneToOne, ManyToOne } from 'typeorm';
 import Team from './team';
 
-@Entity()
+@Entity({name: "emailList"})
 export default class EmailList {
   @PrimaryGeneratedColumn()
   id: string;

@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
 import User from "./user";
 
-@Entity()
+@Entity({name: "commendations"})
 export default class Commendation {
   @PrimaryGeneratedColumn()
   id: string;

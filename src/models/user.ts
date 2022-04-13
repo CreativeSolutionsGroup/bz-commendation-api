@@ -9,7 +9,7 @@ import Commendation from "./commendation";
 import Role from "./role";
 import Team from "./team";
 
-@Entity()
+@Entity({name: "users"})
 class User {
     @PrimaryGeneratedColumn()
     id: string;

@@ -3,6 +3,8 @@ services:
   db:
     image: mariadb
     restart: always
+    ports:
+      - 5036:3306
     volumes:
       - ./bz.sql:/docker-entrypoint-initdb.d/bz.sql
     environment:

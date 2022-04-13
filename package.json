@@ -38,6 +38,7 @@
   "devDependencies": {
     "@swc/cli": "^0.1.51",
     "@swc/core": "^1.2.111",
+    "@types/cors": "^2.8.12",
     "concurrently": "^7.0.0",
     "serverless": "^2.54.0",
     "serverless-offline": "^8.0.0",

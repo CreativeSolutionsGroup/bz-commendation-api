@@ -21,7 +21,7 @@ employeeRouter(app);
 userRouter(app);
 suggestionsRouter(app);
 
-await initDatabase();
+initDatabase();
 
 app.listen(port, () => {
   console.log(`Server started on port ${port} 🚀🚀🚀`);

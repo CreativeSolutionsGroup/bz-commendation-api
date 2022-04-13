@@ -2,15 +2,17 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "lib": ["esnext"],
-    "module": "esnext",
+    "lib": ["ES6"],
+    "module": "commonjs",
     "moduleResolution": "node",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "outDir": "out",
     "sourceMap": true,
-    "target": "esnext",
-    "experimentalDecorators": true
+    "target": "es2017",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

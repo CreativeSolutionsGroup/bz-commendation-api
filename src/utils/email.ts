@@ -11,15 +11,15 @@ import User from '../models/user';
 dotenv.config();
 
 const mail = createTransport({
-    service: "gmail",
-    auth: {
-        type: 'OAUTH2',
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
-        clientId: process.env.OAUTH_CLIENTID,
-        clientSecret: process.env.OAUTH_CLIENT_SECRET,
-        refreshToken: process.env.OAUTH_REFRESH_TOKEN
-    }
+  service: "gmail",
+  auth: {
+    type: 'OAUTH2',
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
+    clientId: process.env.OAUTH_CLIENTID,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    refreshToken: process.env.OAUTH_REFRESH_TOKEN
+  }
 });
 
 /**
@@ -29,13 +29,13 @@ const mail = createTransport({
  * director, exec, team_members
  */
 export const email = async (commendation: Commendation) => {
-    let fromUser = await getUser(commendation.fromUser); 
-    const msg = {
-        to: fromUser.email,
-        from: process.env.EMAIL,
-        subject: `[bz_commendations] ${fromUser.email} sent you a BZ Commendation`,
-        text: `${commendation.message}\n\n-${fromUser.email}`,
-        html: `<div>
+  let fromUser = await getUser(commendation.fromUser);
+  const msg = {
+    to: fromUser.email,
+    from: process.env.EMAIL,
+    subject: `[bz_commendations] ${fromUser.email} sent you a BZ Commendation`,
+    text: `${commendation.message}\n\n-${fromUser.email}`,
+    html: `<div>
                     <img width="500" height="100" src="http://drive.google.com/uc?export=view&id=1hReQjYUGqZXHK_WT1Q7TAhFbx4jVWa4z"/>
                     <div style="display: flex; flex-direction: column; margin-top: 20px">
                         <p style="margin-left: 40px">${commendation.message}</p>
@@ -45,21 +45,21 @@ export const email = async (commendation: Commendation) => {
                         <a style="margin-left: auto; margin-right: auto"href="https://bz-cedarville.com/commendations">View your Commendations</a>
                     </div>
                 </div>`,
-    } as MailOptions;
-    let mailRes = await mail.sendMail(msg);
+  } as MailOptions;
+  let mailRes = await mail.sendMail(msg);
 
-    return mailRes;
+  return mailRes;
 }
 
 export const emailOthers = async (commendation: Commendation) => {
-    let fromUser = await getUser(commendation.fromUser); 
-    let toUser = await getUser(commendation.toUser); 
-    const msg = {
-        to: fromUser.email,
-        from: process.env.EMAIL,
-        subject: `[bz_commendations] ${toUser.name} has received a BZ Commendation`,
-        text: `${commendation.message}\n\n-${fromUser.name}`,
-        html: `<div>
+  let fromUser = await getUser(commendation.fromUser);
+  let toUser = await getUser(commendation.toUser);
+  const msg = {
+    to: fromUser.email,
+    from: process.env.EMAIL,
+    subject: `[bz_commendations] ${toUser.name} has received a BZ Commendation`,
+    text: `${commendation.message}\n\n-${fromUser.name}`,
+    html: `<div>
                     <img width="500" height="100" src="http://drive.google.com/uc?export=view&id=1hReQjYUGqZXHK_WT1Q7TAhFbx4jVWa4z"/>
                     <div style="margin-top: 20px">
                         <div style="margin-left: 20px">
@@ -78,25 +78,25 @@ export const emailOthers = async (commendation: Commendation) => {
                         </div>
                     </div>
                 </div>`,
-    } as MailOptions;
-    let mailRes = await mail.sendMail(msg)
+  } as MailOptions;
+  let mailRes = await mail.sendMail(msg)
     .catch((error) => {
-        console.error(error)
+      console.error(error)
     });
 
-    return mailRes;
+  return mailRes;
 }
 
 export const emailSuggestionTeam = async (suggestion: Suggestion) => {
-    let suggestionTeam: Team = await getTeam(suggestion.toTeam);
-    let senderUser: User = await getUser(suggestion.fromUser);
-    let emails = suggestionTeam.emailList.map(e => e.email);
-    const msg = {
-        to: emails,
-        from: process.env.EMAIL,
-        subject: `[bz_commendations] ${senderUser.email} has written a suggestion for ${suggestionTeam.name}`,
-        text: `${suggestion.message}\n\n-${senderUser.email}`,
-                html: `
+  let suggestionTeam: Team = await getTeam(suggestion.toTeam);
+  let senderUser: User = await getUser(suggestion.fromUser);
+  let emails = suggestionTeam.emailList.map(e => e.email);
+  const msg = {
+    to: emails,
+    from: process.env.EMAIL,
+    subject: `[bz_commendations] ${senderUser.email} has written a suggestion for ${suggestionTeam.name}`,
+    text: `${suggestion.message}\n\n-${senderUser.email}`,
+    html: `
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td align="center">
@@ -130,11 +130,11 @@ export const emailSuggestionTeam = async (suggestion: Suggestion) => {
                     </tr>
                 </table>
                 `,
-    } as MailOptions;
-    let mailRes = await mail.sendMail(msg)
+  } as MailOptions;
+  let mailRes = await mail.sendMail(msg)
     .catch((error) => {
-        console.error(error)
+      console.error(error)
     });
 
-    return mailRes;
+  return mailRes;
 }

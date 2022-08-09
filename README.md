@@ -10,7 +10,7 @@
 
 ### Obtain access key for AWS
 
-https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-your-credentials.html
+Ask your exec.
 
 ### .env
 
@@ -47,4 +47,3 @@ Must have `docker`, and `docker-compose` installed.
 ### How to update the dist image
 
 Create a new Github release and wait for the action.
-

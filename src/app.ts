@@ -5,7 +5,6 @@ import commendationsRouter from "./routers/commendations";
 import userRouter from "./routers/users";
 import employeeRouter from "./routers/employees";
 import suggestionsRouter from "./routers/suggestions";
-import serverless from "serverless-http";
 import { initDatabase } from "./utils/database";
 dotenv.config();
 
@@ -26,5 +25,3 @@ initDatabase();
 app.listen(port, () => {
   console.log(`Server started on port ${port} 🚀🚀🚀`);
 });
-
-module.exports.handler = serverless(app);

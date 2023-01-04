@@ -57,6 +57,10 @@ const create = async (req: Request, res: Response) => {
     newCommendation._id = uuidv4();
     newCommendation.date = new Date().toISOString();
 
+    let isTeamCommendation = () => {
+        return (req.query.isTeamCommendation === "true")
+    }
+
     try {
         await documentClient.put({
             TableName: "bz_commendation",
@@ -64,7 +68,7 @@ const create = async (req: Request, res: Response) => {
         }).promise();
 
         if (!muteEmail) {
-            await emailOthers(newCommendation);
+            await emailOthers(newCommendation, isTeamCommendation());
         }
         await sendText(newCommendation);
 

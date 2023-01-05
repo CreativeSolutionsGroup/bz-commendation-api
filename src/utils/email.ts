@@ -54,28 +54,28 @@ export const email = async (commendation: Commendation) => {
 export const emailOthers = async (commendation: Commendation, team: boolean) => {
     let senderName = await getEmployeeName(commendation.fromEmail); 
     let userName = await getEmployeeName(commendation.toEmail); 
-    let Subject = "";
-    let header = "";
+    let subjectText = "";
+    let headerText = "";
     
     if (team) {
-        Subject = `[bz_commendations] The ${commendation.toEmail} team has received a BZ Commendation`;
-        header  = `The ${commendation.toEmail} team received a new Commendation`;
+        subjectText = `[bz_commendations] The ${commendation.toEmail} team has received a BZ Commendation`;
+        headerText  = `The ${commendation.toEmail} team received a new Commendation`;
     }
     else {
-        Subject = `[bz_commendations] ${userName} has received a BZ Commendation`;
-        header  = `${userName} received a new Commendation`;
+        subjectText = `[bz_commendations] ${userName} has received a BZ Commendation`;
+        headerText  = `${userName} received a new Commendation`;
     }
 
     const msg = {
         to: commendation.otherEmails,
         from: process.env.EMAIL,
-        subject: Subject,
+        subject: subjectText,
         text: `${commendation.message}\n\n-${senderName}`,
         html: `<div>
                     <img width="500" height="100" src="http://drive.google.com/uc?export=view&id=1hReQjYUGqZXHK_WT1Q7TAhFbx4jVWa4z"/>
                     <div style="margin-top: 20px">
                         <div style="margin-left: 20px">
-                            <h2>${header}</h2>
+                            <h2>${headerText}</h2>
                         </div>
                         <p style="margin-left: 40px; white-space: pre-line">${commendation.message}</p>
                         <div style="margin-left: 20px">

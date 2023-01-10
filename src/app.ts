@@ -8,8 +8,6 @@ import suggestionsRouter from "./routers/suggestions";
 import serverless from "serverless-http";
 import bodyParser from "body-parser";
 import AWS, { ConfigurationOptions } from "aws-sdk";
-import YAML from "yamljs";
-import swaggerUi from "swagger-ui-express";
 dotenv.config();
 
 AWS.config.update({

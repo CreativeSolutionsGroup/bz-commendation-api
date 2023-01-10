@@ -64,7 +64,7 @@ const create = async (req: Request, res: Response) => {
         }).promise();
 
         if (!muteEmail) {
-            await emailOthers(newCommendation);
+            await emailOthers(newCommendation, req.query.isTeamCommendation === "true");
         }
         await sendText(newCommendation);
 
